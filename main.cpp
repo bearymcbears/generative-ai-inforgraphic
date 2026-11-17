@@ -4,7 +4,7 @@ using namespace std;
 
 
 int main() {
-
+   
 InitWindow(800,600," Generative AI diagram  ");
 SetTargetFPS(30);
 Color offWhite = { 248, 246, 240, 255 };
