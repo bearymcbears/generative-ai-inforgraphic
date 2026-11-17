@@ -11,15 +11,16 @@ FetchContent_MakeAvailable(raylib)
 # ==========================================================
 #  class demo: example.cpp
 # ==========================================================
-add_executable(example example.cpp)
-target_link_libraries(example PRIVATE raylib)
+add_executable(main
+main.cpp
+Button.cpp)
+target_link_libraries(main PRIVATE raylib)
 
 # ==========================================================
 #  HACKATHON: your program. List every .cpp file here.
 #  Made a new class? Add its .cpp file to this list.
 #  (Don't list .h files, only .cpp files.)
 # ==========================================================
-add_executable(main
-    main.cpp
-)
+
+
 target_link_libraries(main PRIVATE raylib)
