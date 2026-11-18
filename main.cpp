@@ -33,7 +33,7 @@ int main() {
 
             ClearBackground(Color{251, 238, 172, 255});
             DrawText("Collection of Data", 50, 40, 28, BLACK);
-
+Color babyBlue = { 137, 207, 240, 255 };
 DrawText(" Pattern Recognition & Identifying through Biometrics ", 50, 40, 22, BLACK);
 //Drawing A rectangle that have the first step of recognition 
 DrawRectangleRounded((Rectangle){60, 150, 320, 90}, 0.2f, 4, babyBlue);
