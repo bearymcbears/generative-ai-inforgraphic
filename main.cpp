@@ -11,7 +11,7 @@ int main() {
     InitWindow(800, 700, "Generative AI Infographic");
     SetTargetFPS(30);
 
-    Button button1 = Button(50, 100, 240, 90, "Collection of Data");
+    Button button1 = Button(50, 100, 240, 90, "Biometrics ");
     Button button2 = Button(725, 30, 50, 50, "BACK");
 
     while (!WindowShouldClose()) {
