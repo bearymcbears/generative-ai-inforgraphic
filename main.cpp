@@ -34,6 +34,49 @@ int main() {
             ClearBackground(Color{251, 238, 172, 255});
             DrawText("Collection of Data", 50, 40, 28, BLACK);
 
+DrawText(" Pattern Recognition & Identifying through Biometrics ", 50, 40, 22, BLACK);
+//Drawing A rectangle that have the first step of recognition 
+DrawRectangleRounded((Rectangle){60, 150, 320, 90}, 0.2f, 4, babyBlue);
+DrawText("Camera feed/Scrapped Image ", 75, 185, 14, BLACK);
+DrawLine(380, 195, 440, 195, BLACK);
+DrawRectangleRounded((Rectangle){440, 150, 310, 90}, 0.2f, 4, LIGHTGRAY);
+//info from https://alexchohlaswood.com/assets/papers/patternizr.pdf
+DrawText("raw digital media is captured from live surveillance", 455, 175, 12, BLACK);
+DrawText(" feeds or scraped from digital resources",475,195,12,BLACK);
+
+DrawLine(220, 240, 220, 260, BLACK);     
+//second step in biometrics and AI recognition 
+DrawRectangleRounded((Rectangle){60, 260, 320, 90}, 0.2f, 4, PINK);
+DrawText("Facial Mapping ", 150, 295, 14, BLACK);
+DrawLine(380,305,435,305,BLACK);
+DrawRectangleRounded((Rectangle){450,270,280,90},0.2f,4,YELLOW);
+DrawText("The Compute Vision phase",450,290,12,BLACK);
+DrawText("detect distinct facial geometry",470,310,12,BLACK);
+
+
+DrawRectangleRounded((Rectangle){60, 370, 320, 90}, 0.2f, 4, BLUE);
+
+DrawLine(220,350,220,370,BLACK);
+//Third step 
+DrawText("Biometric face Encoding",75, 405, 13,BLACK);
+DrawLine(380, 415, 440, 415, BLACK);
+DrawRectangleRounded((Rectangle){440, 370, 310, 90}, 0.2f, 4, PURPLE);
+DrawText("Translates the facial map into a high-", 455, 395, 12, BLACK);
+ DrawText("dimensional vector for models to process.", 455, 415, 12, BLACK);
+DrawLine(220, 460, 220, 480, BLACK);
+//4th step
+DrawRectangleRounded((Rectangle){60, 480, 320, 90}, 0.2f, 4, ORANGE);
+DrawText("Random Similarity Matching",70,515,14,BLACK);
+DrawLine(380,520,430,520,BLACK);
+DrawRectangleRounded((Rectangle){440, 480, 330, 90}, 0.2f, 4, GRAY);
+
+DrawText("Random similarity matching uses probabilistic models",460,500,12,BLACK );
+DrawText(" like Patternizr classifiers to compare faceprints and identify matches.",460,520,12,BLACK);
+
+
+
+
+
             button2.Render();
             if (button2.Clicked()) {
                 currPage = 0;
