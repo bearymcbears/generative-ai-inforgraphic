@@ -5,15 +5,16 @@ using namespace std;
 
 
 int main() {
-
     int currPage = 0;
    
     InitWindow(800, 700, "Generative AI Infographic");
     SetTargetFPS(30);
-
+ Texture2D photo= LoadTexture("passport-photo-portrait-middle-aged-man-looking-camera-white-studio-background-isolated_922936-66036.jpg");
+bool hasPhoto = (photo.id != 0);
+    
     Button button1 = Button(50, 100, 240, 90, "Biometrics ");
     Button button2 = Button(725, 30, 50, 50, "BACK");
-    Button button3 =Button (725,50,50,"Unmask);
+    Button button3 = Button  (725,50,50,50,"Unmask");
     while (!WindowShouldClose()) {
 
         BeginDrawing();
@@ -72,21 +73,22 @@ DrawRectangleRounded((Rectangle){440, 480, 330, 90}, 0.2f, 4, GRAY);
 
 DrawText("Random similarity matching uses probabilistic models",460,500,12,BLACK );
 DrawText(" like Patternizr classifiers to compare faceprints and identify matches.",460,520,12,BLACK);
-
+        
 button3.Render();
             if(button3.Clicked()){
                 currPage = 2;
             }
+        }
             else if( currPage == 2){
 
-           Texture2D photo= LoadTexture("passport-photo-portrait-middle-aged-man-looking-camera-white-studio-background-isolated_922936-66036.avif");
+          // Texture2D photo= LoadTexture("passport-photo-portrait-middle-aged-man-looking-camera-white-studio-background-isolated_922936-66036.avif");
                 
                 double photoX=120.0f;
                 double photoY=180.0f;
                 double photoW=220.0f;
                 double photoH=220.0f;
 
-                Rectangle src {0.0f,0.0f,(float) photo.width,float(phto.height)};
+                Rectangle src {0.0f,0.0f,(float) photo.width,float(photo.height)};
                 Rectangle dest = { (float)photoX, (float)photoY, (float)photoW, (float)photoH };
 DrawTexturePro(photo, src, dest, { 0.0f, 0.0f }, 0.0f, WHITE);
                 double cx=photoX + photoW *0.50f;
@@ -94,26 +96,22 @@ DrawTexturePro(photo, src, dest, { 0.0f, 0.0f }, 0.0f, WHITE);
                 
                 DrawCircle((int)cx, (int)cy, photoW*0.22f,Fade(RED,0.3f));
                 
-                 if (photo.id == 0) {
+               /* if (photo.id == 0) {
         CloseWindow();
         return -1;
                      
     }
-            button2.Render();
+      */
+       button2.Render();
             if (button2.Clicked()) {
-                currPage = 0;
+                currPage = 1;
             }
-        
+        }
 
-        
-        
-        
         EndDrawing();
-
     }
-UnloadTexture(photo);
-    closeWindow();
 
-return 0;
-
+    UnloadTexture(photo);
+    CloseWindow();
+    return 0;
 }
