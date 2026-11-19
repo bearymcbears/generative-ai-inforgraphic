@@ -9,7 +9,7 @@ int main() {
    
     InitWindow(800, 700, "Generative AI Infographic");
     SetTargetFPS(30);
- Texture2D photo= LoadTexture("passport-photo-portrait-middle-aged-man-looking-camera-white-studio-background-isolated_922936-66036.jpg");
+ Texture2D photo= LoadTexture("_116381967_facemask.jpg");
 bool hasPhoto = (photo.id != 0);
     
     Button button1 = Button(50, 100, 240, 90, "Biometrics ");
