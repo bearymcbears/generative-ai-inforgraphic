@@ -5,16 +5,20 @@ using namespace std;
 
 
 int main() {
+     const int screenWidth = 800;
+    const int screenHeight = 700;
     int currPage = 0;
    
-    InitWindow(800, 700, "Generative AI Infographic");
+    InitWindow(screenWidth, screenHeight, "Generative AI Infographic");
     SetTargetFPS(30);
- Texture2D photo= LoadTexture("_116381967_facemask.jpg");
+Texture2D photo= LoadTexture("_116381967_facemask.jpg"); //used https://www.raylib.com/examples/textures/loader.html?name=textures_image_drawing to upload pictures
 bool hasPhoto = (photo.id != 0);
     
     Button button1 = Button(50, 100, 240, 90, "Biometrics ");
     Button button2 = Button(725, 30, 50, 50, "BACK");
-    Button button3 = Button  (725,50,50,50,"Unmask");
+    Button button3 = Button  (725,90,50,50,"Unmask");
+ Button button4 = Button(725, 150, 50, 50, "BACK");
+
     while (!WindowShouldClose()) {
 
         BeginDrawing();
@@ -33,7 +37,7 @@ bool hasPhoto = (photo.id != 0);
         else if (currPage == 1) {
 
             ClearBackground(Color{251, 238, 172, 255});
-            DrawText("Collection of Data", 50, 40, 28, BLACK);
+           // DrawText("Collection of Data", 50, 40, 28, BLACK);
 Color babyBlue = { 137, 207, 240, 255 };
 DrawText(" Pattern Recognition & Identifying through Biometrics ", 50, 40, 22, BLACK);
 //Drawing A rectangle that have the first step of recognition 
@@ -72,46 +76,35 @@ DrawLine(380,520,430,520,BLACK);
 DrawRectangleRounded((Rectangle){440, 480, 330, 90}, 0.2f, 4, GRAY);
 
 DrawText("Random similarity matching uses probabilistic models",460,500,12,BLACK );
-DrawText(" like Patternizr classifiers to compare faceprints and identify matches.",460,520,12,BLACK);
-        
-button3.Render();
+DrawText(" like Patternizr classifiers to compare faceprints",460,520,12,BLACK);
+DrawText("and identify matches.",460,540,12,BLACK);
+
+          button2.Render();
+            if (button2.Clicked()) {
+                currPage = 0;
+            }
+            button3.Render();
             if(button3.Clicked()){
                 currPage = 2;
             }
         }
-            else if( currPage == 2){
-
-          // Texture2D photo= LoadTexture("passport-photo-portrait-middle-aged-man-looking-camera-white-studio-background-isolated_922936-66036.avif");
-                
-                double photoX=120.0f;
-                double photoY=180.0f;
-                double photoW=220.0f;
-                double photoH=220.0f;
-
-                Rectangle src {0.0f,0.0f,(float) photo.width,float(photo.height)};
-                Rectangle dest = { (float)photoX, (float)photoY, (float)photoW, (float)photoH };
-DrawTexturePro(photo, src, dest, { 0.0f, 0.0f }, 0.0f, WHITE);
-                double cx=photoX + photoW *0.50f;
-                double cy=photoY+ photoH *0.40f;
-                
-                DrawCircle((int)cx, (int)cy, photoW*0.22f,Fade(RED,0.3f));
-                
-               /* if (photo.id == 0) {
-        CloseWindow();
-        return -1;
-                     
-    }
-      */
-       button2.Render();
-            if (button2.Clicked()) {
-                currPage = 1;
+        else if( currPage == 2){
+                ClearBackground(RAYWHITE);                                                             
+    DrawTexture(photo, screenWidth/2 - photo.width/2, screenHeight/2 - photo.height/2, WHITE );       /* used https://www.raylib.com/examples/textures/loader.html?name=textures_image_drawing 
+                                                                                                         to upload the Image*/
+         
+       button4.Render();
+            if (button4.Clicked()) {
+                currPage =1;
             }
         }
 
         EndDrawing();
+    
     }
-
     UnloadTexture(photo);
     CloseWindow();
     return 0;
 }
+
+
