@@ -75,12 +75,30 @@ DrawText(" like Patternizr classifiers to compare faceprints and identify matche
 
 button3.Render();
             if(button3.Clicked()){
-           Texture2D photo= LoadTexture(
-
+                currPage = 2;
             }
+            else if( currPage == 2){
 
+           Texture2D photo= LoadTexture("passport-photo-portrait-middle-aged-man-looking-camera-white-studio-background-isolated_922936-66036.avif");
+                
+                double photoX=120.0f;
+                double photoY=180.0f;
+                double photoW=220.0f;
+                double photoH=220.0f;
 
-
+                Rectangle src {0.0f,0.0f,(float) photo.width,float(phto.height)};
+                Rectangle dest = { (float)photoX, (float)photoY, (float)photoW, (float)photoH };
+DrawTexturePro(photo, src, dest, { 0.0f, 0.0f }, 0.0f, WHITE);
+                double cx=photoX + photoW *0.50f;
+                double cy=photoY+ photoH *0.40f;
+                
+                DrawCircle((int)cx, (int)cy, photoW*0.22f,Fade(RED,0.3f));
+                
+                 if (photo.id == 0) {
+        CloseWindow();
+        return -1;
+                     
+    }
             button2.Render();
             if (button2.Clicked()) {
                 currPage = 0;
@@ -93,7 +111,8 @@ button3.Render();
         EndDrawing();
 
     }
-
+UnloadTexture(photo);
+    closeWindow();
 
 return 0;
 
