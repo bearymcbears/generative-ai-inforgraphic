@@ -13,7 +13,7 @@ int main() {
 
     Button button1 = Button(50, 100, 240, 90, "Biometrics ");
     Button button2 = Button(725, 30, 50, 50, "BACK");
-
+    Button button3 =Button (725,50,50,"Unmask);
     while (!WindowShouldClose()) {
 
         BeginDrawing();
@@ -73,7 +73,11 @@ DrawRectangleRounded((Rectangle){440, 480, 330, 90}, 0.2f, 4, GRAY);
 DrawText("Random similarity matching uses probabilistic models",460,500,12,BLACK );
 DrawText(" like Patternizr classifiers to compare faceprints and identify matches.",460,520,12,BLACK);
 
+button3.Render();
+            if(button3.Clicked()){
+           Texture2D photo= LoadTexture(
 
+            }
 
 
 
@@ -81,8 +85,9 @@ DrawText(" like Patternizr classifiers to compare faceprints and identify matche
             if (button2.Clicked()) {
                 currPage = 0;
             }
+        
 
-        }
+        
         
         
         EndDrawing();
