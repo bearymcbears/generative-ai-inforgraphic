@@ -60,7 +60,11 @@ int main()
             DrawRectangleRounded((Rectangle){60, 260, 320, 90}, 0.2f, 4, PINK);
             
             DrawText("Facial Mapping ", 150, 295, 14, BLACK);
-            DrawTexture(facialtex, 75,280,WHITE);
+           
+           
+            if(facialtex.id!=0){
+            DrawTextureEx(facialtex,(Vector2){265.0f,280.0f},0.08f,0.08f,WHITE);
+            }
             DrawLine(380, 305, 435, 305, BLACK);
             DrawRectangleRounded((Rectangle){450, 270, 280, 90}, 0.2f, 4, YELLOW);
             DrawText("The Compute Vision phase", 450, 290, 12, BLACK);
