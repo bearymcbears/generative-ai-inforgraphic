@@ -11,8 +11,10 @@ int main()
 
     InitWindow(screenWidth, screenHeight, "Generative AI Infographic");
     SetTargetFPS(30);
-    Texture2D photo = LoadTexture("_116381967_facemask.jpg"); // used https://www.raylib.com/examples/textures/loader.html?name=textures_image_drawing to upload pictures
+    Texture2D photo = LoadTexture("_116381967_facemask.jpg");
+    Texture2D facialtex = LoadTexture("Gemini_Generated_Image_gsgu2gsgu2gsgu2g.jpg"); // used https://www.raylib.com/examples/textures/loader.html?name=textures_image_drawing to upload pictures
     bool hasPhoto = (photo.id != 0);
+    
 
     Button button1 = Button(50, 100, 240, 90, "Biometrics ", 1);
     Button button2 = Button(725, 30, 50, 50, "BACK", 1);
@@ -56,7 +58,9 @@ int main()
             DrawLine(220, 240, 220, 260, BLACK);
             // second step in biometrics and AI recognition
             DrawRectangleRounded((Rectangle){60, 260, 320, 90}, 0.2f, 4, PINK);
+            
             DrawText("Facial Mapping ", 150, 295, 14, BLACK);
+            DrawTexture(facialtex, 75,280,WHITE);
             DrawLine(380, 305, 435, 305, BLACK);
             DrawRectangleRounded((Rectangle){450, 270, 280, 90}, 0.2f, 4, YELLOW);
             DrawText("The Compute Vision phase", 450, 290, 12, BLACK);
@@ -113,6 +117,7 @@ int main()
         EndDrawing();
     }
     UnloadTexture(photo);
+      UnloadTexture(facialtex);
     CloseWindow();
     return 0;
 }
