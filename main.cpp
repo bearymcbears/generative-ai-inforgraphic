@@ -16,8 +16,8 @@ int main()
     SetTargetFPS(30);
 
     Texture2D photo = LoadTexture("assets/images/_116381967_facemask.jpg");
-    Texture2D facialtex = LoadTexture("assets/images/Gemini_Generated_Image_gsgu2gsgu2gsgu2g.jpg");
-    Texture2D camerascrapped =LoadTexture("Gemini_Generated_Image_2laahr2laahr2laa");
+    Texture2D facialtex = LoadTexture("Gemini_Generated_Image_3iwtae3iwtae3iwt.jpg");
+    Texture2D camerascrapped =LoadTexture("Gemini_Generated_Image_2laahr2laahr2laa.jpg");
     
     bool hasPhoto = (photo.id != 0);
 
