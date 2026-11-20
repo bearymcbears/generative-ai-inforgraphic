@@ -1,5 +1,6 @@
 #include "raylib.h"
 #include "Text.h"
+#include "Connector.h"
 using namespace std;
 
 enum class Pages { Main, CollectionOfData, StorageOfData, Biometrics, Unmask };
@@ -7,8 +8,7 @@ enum class Pages { Main, CollectionOfData, StorageOfData, Biometrics, Unmask };
 int main()
 {
     Pages currPage = Pages::Main;
-    SetConfigFlags(FLAG_FULLSCREEN_MODE);
-    InitWindow(0, 0, "Generative AI Infographic");
+    InitWindow(1200, 800, "Generative AI Infographic");
 
     const int screenWidth = GetMonitorWidth(0);
     const int screenHeight = GetMonitorHeight(0);
@@ -16,7 +16,7 @@ int main()
     SetTargetFPS(30);
 
     Texture2D photo = LoadTexture("assets/images/_116381967_facemask.jpg");
-    Texture2D facialtex = LoadTexture("Gemini_Generated_Image_gsgu2gsgu2gsgu2g.jpg");
+    Texture2D facialtex = LoadTexture("assets/images/Gemini_Generated_Image_gsgu2gsgu2gsgu2g.jpg");
     bool hasPhoto = (photo.id != 0);
 
     Font defaultFont = GetFontDefault();
@@ -29,12 +29,10 @@ int main()
     Text collectDataButton("Collection of Data", 300, 100, 240, 90, 16, BLACK, defaultFont, true);
     Text storageButton("Storage of Data", 550, 100, 240, 90, 16, BLACK, defaultFont, true);
 
-    while (!WindowShouldClose())
-    {
+    while (!WindowShouldClose()){
         BeginDrawing();
 
-        if (currPage == Pages::Main)
-        {
+        if (currPage == Pages::Main){
             ClearBackground(WHITE);
             Text("AI AND SURVEILLANCE", 50, 40, 0, 0, 28, BLACK, interFont, false).Render();
 
@@ -45,10 +43,15 @@ int main()
             if (bioButton.Clicked())
             {
                 currPage = Pages::Biometrics;
+            } else if (collectDataButton.Clicked())
+            {
+                currPage = Pages::CollectionOfData;
+            } else if (storageButton.Clicked())
+            {
+                currPage = Pages::StorageOfData;
             }
         }
-        else if (currPage == Pages::Biometrics)
-        {
+        else if (currPage == Pages::Biometrics){
             ClearBackground(WHITE);
             Color babyBlue = {137, 207, 240, 255};
             Text(" Pattern Recognition & Identifying through Biometrics ", 50, 40, 0, 0, 22, BLACK, defaultFont, false).Render();
@@ -104,8 +107,7 @@ int main()
                 currPage = Pages::Unmask;
             }
         }
-        else if (currPage == Pages::Unmask)
-        {
+        else if (currPage == Pages::Unmask){
             ClearBackground(RAYWHITE);
             DrawTexture(photo, screenWidth / 2 - photo.width / 2, screenHeight / 2 - photo.height / 2, WHITE);
 
@@ -115,11 +117,63 @@ int main()
                 currPage = Pages::Biometrics;
             }
         }
-        else if (currPage == Pages::CollectionOfData)
-        {
+        else if (currPage == Pages::CollectionOfData){
+            ClearBackground(WHITE);
+
+            const int fs = 14;
+
+            Text sensor("Sensor records automatically:\ncamera, plate reader, microphone, phone GPS", 200, 10, 340, 50, fs, BLACK, interFont, false);
+            Text software("Software turns the raw recording into data", 40, 94, 660, 34, fs, BLACK, interFont, false);
+
+            Text plate("Plate photo: find the\nplate, then read its\ncharacters as text", 40, 162, 200, 56, fs, BLACK, interFont, false);
+            Text sound("Sound: locate it by comparing\nwhen each mic heard it, then\nclassify as gunshot or not", 255, 162, 230, 56, fs, BLACK, interFont, false);
+            Text video("Video: find faces,\ncars, or movement", 500, 162, 200, 56, fs, BLACK, interFont, false);
+
+            Text tag("Tag it with time, place, and camera ID", 40, 252, 660, 34, fs, BLACK, interFont, false);
+            Text check("Check against a watch\nlist or gunshot model", 270, 340, 200, 40, fs, BLACK, interFont, false);
+
+            Text alert("Alert, often reviewed\nby a person first", 40, 340, 160, 40, fs, BLACK, interFont, false);
+            Text saved("Saved anyway, for\ndays or longer", 540, 340, 160, 40, fs, BLACK, interFont, false);
+            Text officer("Officer is notified\nand responds", 40, 414, 160, 40, fs, BLACK, interFont, false);
+            Text shared("Shared databases and dashboards like the NYPD Domain Awareness System", 40, 500, 660, 40, fs, BLACK, interFont, false);
+
+            Connector(sensor, software, Side::Bottom, Side::Top).DrawConnector();
+            Connector(tag, check, Side::Bottom, Side::Top).DrawConnector();
+            Connector(check, alert, Side::Left, Side::Right).DrawConnector();
+            Connector(check, saved, Side::Right, Side::Left).DrawConnector();
+            Connector(alert, officer, Side::Bottom, Side::Top).DrawConnector();
+
+            DrawLineEx({140, 128}, {140, 162}, 3.0f, BLACK);   // software -> plate
+            DrawLineEx({370, 128}, {370, 162}, 3.0f, BLACK);   // software -> sound
+            DrawLineEx({600, 128}, {600, 162}, 3.0f, BLACK);   // software -> video
+            DrawLineEx({140, 218}, {140, 252}, 3.0f, BLACK);   // plate -> tag
+            DrawLineEx({370, 218}, {370, 252}, 3.0f, BLACK);   // sound -> tag
+            DrawLineEx({600, 218}, {600, 252}, 3.0f, BLACK);   // video -> tag
+            DrawLineEx({120, 454}, {120, 500}, 3.0f, BLACK);   // officer -> shared
+            DrawLineEx({620, 380}, {620, 500}, 3.0f, BLACK);   // saved -> shared
+
+            sensor.Render(); software.Render();
+            plate.Render(); sound.Render(); video.Render();
+            tag.Render(); check.Render();
+            alert.Render(); saved.Render(); officer.Render(); shared.Render();
+
+            // Labels on the decision lines
+            Text("match", 219, 342, 0, 0, 12, DARKGRAY, interFont, false).Render();
+            Text("no match", 480, 342, 0, 0, 12, DARKGRAY, interFont, false).Render();
+
+            goToMainButton.Render();
+            if (goToMainButton.Clicked()){
+                currPage = Pages::Main;
+            }
         }
-        else if (currPage == Pages::StorageOfData)
-        {
+        else if (currPage == Pages::StorageOfData){
+            ClearBackground(WHITE);
+
+            goToMainButton.Render();
+            if (goToMainButton.Clicked())
+            {
+                currPage = Pages::Main;
+            }
         }
 
         EndDrawing();

@@ -13,7 +13,8 @@ FetchContent_MakeAvailable(raylib)
 # ==========================================================
 add_executable(main
 main.cpp
-Button.cpp)
+Text.cpp
+Connector.cpp)
 target_link_libraries(main PRIVATE raylib)
 
 # ==========================================================

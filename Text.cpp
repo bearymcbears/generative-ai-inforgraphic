@@ -10,14 +10,24 @@ void Text::Render() {
     buttonShape = {(float)posX, (float)posY, (float)width, (float)height};
 
     if (CheckCollisionPointRec(GetMousePosition(), buttonShape) && clickable && !currMoving) {
-        DrawRectangleRounded(buttonShape, 0.2f, 4, ColorBrightness(color, -0.1f)); // if mouse is inside button, draw darker button (only works if button is enabled and isn't currently moving)
+        DrawRectangleRounded(buttonShape, 0.2f, 4, ColorBrightness(boxColor, -0.1f)); // if mouse is inside button, draw darker button (only works if button is enabled and isn't currently moving)
     }
     else { 
-        DrawRectangleRounded(buttonShape, 0.2f, 4, color); // else draw normal button
+        DrawRectangleRounded(buttonShape, 0.2f, 4, boxColor); // else draw normal button
     }
 
-    float floatPosX =  posX + ((width - MeasureText(text, 16)) / 2);
-    float floatPosY =  posY + ((height - 16) / 2);
+    float floatPosX, floatPosY;
+
+    if (width > 0){
+        floatPosX =  posX + ((width - MeasureText(text, 16)) / 2);
+    } else {
+        floatPosX = posX;
+    }
+    if (height > 0){
+        floatPosY =  posY + ((height - 16) / 2);
+    } else {
+        floatPosY = posY;
+    }
 
     DrawTextEx(font, text,
     {floatPosX, floatPosY}, fontSize, 1.0, color);
@@ -27,7 +37,7 @@ void Text::Render() {
 }
 
 bool Text::Clicked() {
-    return CheckCollisionPointRec(GetMousePosition(), buttonShape) && IsMouseButtonDown(MOUSE_BUTTON_LEFT) && !currMoving && clickable;
+    return CheckCollisionPointRec(GetMousePosition(), buttonShape) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && !currMoving && clickable;
 }
 
 

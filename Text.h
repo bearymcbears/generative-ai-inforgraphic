@@ -6,6 +6,10 @@ class Text {
 
 public:
     Text(char *text, int posX, int posY, int w, int h, int fontSize, Color color, Font font, bool clickable);
+    int GetPosX() { return posX; }
+    int GetPosY() { return posY; }
+    int GetWidth() { return width; }
+    int GetHeight() { return height; }
     void Render(); // render the text box
     bool Clicked(); // detects a single click in the text box
     void MoveX(int start, int moveX, int speed); // move the text box starting at a given frame, moving a given amount of units, at a given speed
@@ -17,11 +21,11 @@ private:
     int initX, initY; // initial position of the text box to be reset to when Reset() is called
     int width, height; // dimensions of text box
     int fontSize;
-    Color color;
     Font font;
+    Color color; // color of the text
     char* text; // the displayed text
     Rectangle buttonShape; // rectangle object that determines the shape of the text box
-    Color color = {137, 207, 240, 255}; // color of the text box
+    Color boxColor = {137, 207, 240, 255}; // color of the text box
     int clock = 0; // internal clock used to coordinate movement
     bool clickable; // boolean that determines if a text box is clickable
     bool currMoving = false; // boolean that determines if a text box is currently moving, moving boxes are not clickable
