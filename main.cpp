@@ -17,6 +17,8 @@ int main()
 
     Texture2D photo = LoadTexture("assets/images/_116381967_facemask.jpg");
     Texture2D facialtex = LoadTexture("assets/images/Gemini_Generated_Image_gsgu2gsgu2gsgu2g.jpg");
+    Texture2D camerascrapped =LoadTexture("Gemini_Generated_Image_2laahr2laahr2laa");
+    
     bool hasPhoto = (photo.id != 0);
 
     Font defaultFont = GetFontDefault();
@@ -28,7 +30,7 @@ int main()
     Text goToBioButton("BACK", 725, 30, 50, 50, 16, BLACK, defaultFont, true);
     Text collectDataButton("Collection of Data", 300, 100, 240, 90, 16, BLACK, defaultFont, true);
     Text storageButton("Storage of Data", 550, 100, 240, 90, 16, BLACK, defaultFont, true);
-
+    Text NameButton("Name: joseph rivera\nAge: 27\nSkin Tone: Medium\nOrigin: New York",50,100,300,300,20,BLACK,defaultFont,false );
     while (!WindowShouldClose()){
         BeginDrawing();
 
@@ -58,6 +60,10 @@ int main()
 
             DrawRectangleRounded((Rectangle){60, 150, 320, 90}, 0.2f, 4, babyBlue);
             Text("Camera feed/Scrapped Image ", 75, 185, 0, 0, 14, BLACK, defaultFont, false).Render();
+               if (facialtex.id != 0)
+            {
+                DrawTextureEx(camerascrapped, (Vector2){90.0f, 190.0f}, 0.08f, 0.08f, WHITE);
+            }
             DrawLine(380, 195, 440, 195, BLACK);
             DrawRectangleRounded((Rectangle){440, 150, 310, 90}, 0.2f, 4, LIGHTGRAY);
             Text("raw digital media is captured from live surveillance", 455, 175, 0, 0, 12, BLACK, defaultFont, false).Render();
@@ -110,7 +116,7 @@ int main()
         else if (currPage == Pages::Unmask){
             ClearBackground(RAYWHITE);
             DrawTexture(photo, screenWidth / 2 - photo.width / 2, screenHeight / 2 - photo.height / 2, WHITE);
-
+             NameButton.Render();
             goToBioButton.Render();
             if (goToBioButton.Clicked())
             {
@@ -181,6 +187,7 @@ int main()
 
     UnloadFont(interFont);
     UnloadTexture(photo);
+    unloadTexture(camerascrapped);
     UnloadTexture(facialtex);
     CloseWindow();
     return 0;
