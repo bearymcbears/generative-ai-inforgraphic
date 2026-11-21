@@ -14,7 +14,9 @@ FetchContent_MakeAvailable(raylib)
 add_executable(main
 main.cpp
 Text.cpp
-Connector.cpp)
+Connector.cpp
+Circle.cpp
+)
 target_link_libraries(main PRIVATE raylib)
 
 # ==========================================================

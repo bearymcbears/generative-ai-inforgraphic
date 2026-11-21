@@ -5,31 +5,38 @@
 
 using namespace std;
 
-enum class Pages { Main, CollectionOfData, StorageOfData, Biometrics, Unmask ,StorageOfDataVisualize};
+enum class Pages
+{
+    Main,
+    CollectionOfData,
+    StorageOfData,
+    Biometrics,
+    Unmask,
+    StorageOfDataVisualize
+};
 
 int main()
 
 {
-  
+
     const int screenWidth = 1200;
     const int screenHeight = 800;
     int spacing = 130;
-    int centerx = 600+50;
-    int centery = (800/2)-90;
+    int centerx = 600 + 50;
+    int centery = (800 / 2) - 90;
     Pages currPage = Pages::Main;
     InitWindow(1200, 800, "Generative AI Infographic");
-  int midX = centerx - 250;
-int midY = (centery + spacing / 2) - 25;
-int midW = 500;
-int midH = 90;
-  
+    int midX = centerx - 250;
+    int midY = (centery + spacing / 2) - 25;
+    int midW = 500;
+    int midH = 90;
 
     SetTargetFPS(30);
 
     Texture2D photo = LoadTexture("assets/images/_116381967_facemask.jpg");
-    Texture2D facialtex = LoadTexture("Gemini_Generated_Image_3iwtae3iwtae3iwt.jpg");
-    Texture2D camerascrapped =LoadTexture("Gemini_Generated_Image_2laahr2laahr2laa.jpg");
-    
+    Texture2D facialtex = LoadTexture("assets/images/Gemini_Generated_Image_3iwtae3iwtae3iwt.jpg");
+    Texture2D camerascrapped = LoadTexture("assets/images/Gemini_Generated_Image_2laahr2laahr2laa.jpg");
+
     bool hasPhoto = (photo.id != 0);
 
     Font defaultFont = GetFontDefault();
@@ -41,27 +48,29 @@ int midH = 90;
     Text goToBioButton("BACK", 725, 30, 50, 50, 16, BLACK, defaultFont, true);
     Text collectDataButton("Collection of Data", 300, 100, 240, 90, 16, BLACK, defaultFont, true);
     Text storageButton("Storage of Data", 550, 100, 240, 90, 16, BLACK, defaultFont, true);
-    Text NameButton("Name: joseph rivera\nAge: 27\nSkin Tone: Medium\nOrigin: New York",50,100,250,250,20,BLACK,defaultFont,false );
-  Circle circle1 ("DATA",centerx-spacing/2,(centery-spacing/2)-60, 20, 20, YELLOW, defaultFont);
-  Circle circle2 ("DATA",centerx+spacing/2,(centery-spacing/2)-60, 20, 20, GREEN, defaultFont);
-  Circle circle3 ("DATA",centerx-spacing/2,(centery+spacing/2)-60, 20, 20, BLUE, defaultFont);
-  Circle circle4 ("DATA",centerx+spacing/2,(centery+spacing/2)-60, 20, 20, RED, defaultFont);
+    Text NameButton("Name: joseph rivera\nAge: 27\nSkin Tone: Medium\nOrigin: New York", 50, 100, 250, 250, 20, BLACK, defaultFont, false);
+    Circle circle1("DATA", centerx - spacing / 2, (centery - spacing / 2) - 60, 20, 20, YELLOW, defaultFont);
+    Circle circle2("DATA", centerx + spacing / 2, (centery - spacing / 2) - 60, 20, 20, GREEN, defaultFont);
+    Circle circle3("DATA", centerx - spacing / 2, (centery + spacing / 2) - 60, 20, 20, BLUE, defaultFont);
+    Circle circle4("DATA", centerx + spacing / 2, (centery + spacing / 2) - 60, 20, 20, RED, defaultFont);
 
-Text MIDDLEREC("Adjustable Blocks of Data", midX, midY, midW, midH, 16, BLACK, defaultFont, false);
+    Text MIDDLEREC("Adjustable Blocks of Data", midX, midY, midW, midH, 16, BLACK, defaultFont, false);
 
-int boxW = 150;
-int boxH = 70;
-int boxY = midY + midH + 35; // Below MIDDLEREC with a 35px gap
+    int boxW = 150;
+    int boxH = 70;
+    int boxY = midY + midH + 35; // Below MIDDLEREC with a 35px gap
 
-Text leftBox("Live Storage", midX, boxY, boxW, boxH, 14, BLACK, defaultFont, false);
-Text middleBox("Encrypted Archive", midX + (midW / 2) - (boxW / 2), boxY, boxW, boxH, 14, BLACK, defaultFont, false);
-Text rightBox("Auto-Purge", midX + midW - boxW, boxY, boxW, boxH, 14, BLACK, defaultFont, false);
-Text VIualizeButton("Visualize", 725, 90, 50, 50, 16, BLACK, defaultFont, true);
+    Text leftBox("Live Storage", midX, boxY, boxW, boxH, 14, BLACK, defaultFont, false);
+    Text middleBox("Encrypted Archive", midX + (midW / 2) - (boxW / 2), boxY, boxW, boxH, 14, BLACK, defaultFont, false);
+    Text rightBox("Auto-Purge", midX + midW - boxW, boxY, boxW, boxH, 14, BLACK, defaultFont, false);
+    Text VIualizeButton("Visualize", 725, 90, 50, 50, 16, BLACK, defaultFont, true);
 
-    while (!WindowShouldClose()){
+    while (!WindowShouldClose())
+    {
         BeginDrawing();
 
-        if (currPage == Pages::Main){
+        if (currPage == Pages::Main)
+        {
             ClearBackground(WHITE);
             Text("AI AND SURVEILLANCE", 50, 40, 0, 0, 28, BLACK, interFont, false).Render();
 
@@ -72,22 +81,25 @@ Text VIualizeButton("Visualize", 725, 90, 50, 50, 16, BLACK, defaultFont, true);
             if (bioButton.Clicked())
             {
                 currPage = Pages::Biometrics;
-            } else if (collectDataButton.Clicked())
+            }
+            else if (collectDataButton.Clicked())
             {
                 currPage = Pages::CollectionOfData;
-            } else if (storageButton.Clicked())
+            }
+            else if (storageButton.Clicked())
             {
                 currPage = Pages::StorageOfData;
             }
         }
-        else if (currPage == Pages::Biometrics){
+        else if (currPage == Pages::Biometrics)
+        {
             ClearBackground(WHITE);
             Color babyBlue = {137, 207, 240, 255};
             Text(" Pattern Recognition & Identifying through Biometrics ", 50, 40, 0, 0, 22, BLACK, defaultFont, false).Render();
 
             DrawRectangleRounded((Rectangle){60, 150, 320, 90}, 0.2f, 4, babyBlue);
             Text("Camera feed/Scrapped Image ", 75, 185, 0, 0, 14, BLACK, defaultFont, false).Render();
-               if (facialtex.id != 0)
+            if (facialtex.id != 0)
             {
                 DrawTextureEx(camerascrapped, (Vector2){180.0f, 270.0f}, 0.08f, 0.08f, WHITE);
             }
@@ -140,16 +152,19 @@ Text VIualizeButton("Visualize", 725, 90, 50, 50, 16, BLACK, defaultFont, true);
                 currPage = Pages::Unmask;
             }
         }
-        else if (currPage == Pages::Unmask){
+        else if (currPage == Pages::Unmask)
+        {
             ClearBackground(RAYWHITE);
-DrawTexture(photo, screenWidth / 2 - photo.width / 2, screenHeight / 2 - photo.height / 2, WHITE);  NameButton.Render();
+            DrawTexture(photo, screenWidth / 2 - photo.width / 2, screenHeight / 2 - photo.height / 2, WHITE);
+            NameButton.Render();
             goToBioButton.Render();
             if (goToBioButton.Clicked())
             {
                 currPage = Pages::Biometrics;
             }
         }
-        else if (currPage == Pages::CollectionOfData){
+        else if (currPage == Pages::CollectionOfData)
+        {
             ClearBackground(WHITE);
 
             const int fs = 14;
@@ -175,41 +190,54 @@ DrawTexture(photo, screenWidth / 2 - photo.width / 2, screenHeight / 2 - photo.h
             Connector(check, saved, Side::Right, Side::Left).DrawConnector();
             Connector(alert, officer, Side::Bottom, Side::Top).DrawConnector();
 
-            DrawLineEx({140, 128}, {140, 162}, 3.0f, BLACK);   // software -> plate
-            DrawLineEx({370, 128}, {370, 162}, 3.0f, BLACK);   // software -> sound
-            DrawLineEx({600, 128}, {600, 162}, 3.0f, BLACK);   // software -> video
-            DrawLineEx({140, 218}, {140, 252}, 3.0f, BLACK);   // plate -> tag
-            DrawLineEx({370, 218}, {370, 252}, 3.0f, BLACK);   // sound -> tag
-            DrawLineEx({600, 218}, {600, 252}, 3.0f, BLACK);   // video -> tag
-            DrawLineEx({120, 454}, {120, 500}, 3.0f, BLACK);   // officer -> shared
-            DrawLineEx({620, 380}, {620, 500}, 3.0f, BLACK);   // saved -> shared
+            DrawLineEx({140, 128}, {140, 162}, 3.0f, BLACK); // software -> plate
+            DrawLineEx({370, 128}, {370, 162}, 3.0f, BLACK); // software -> sound
+            DrawLineEx({600, 128}, {600, 162}, 3.0f, BLACK); // software -> video
+            DrawLineEx({140, 218}, {140, 252}, 3.0f, BLACK); // plate -> tag
+            DrawLineEx({370, 218}, {370, 252}, 3.0f, BLACK); // sound -> tag
+            DrawLineEx({600, 218}, {600, 252}, 3.0f, BLACK); // video -> tag
+            DrawLineEx({120, 454}, {120, 500}, 3.0f, BLACK); // officer -> shared
+            DrawLineEx({620, 380}, {620, 500}, 3.0f, BLACK); // saved -> shared
 
-            sensor.Render(); software.Render();
-            plate.Render(); sound.Render(); video.Render();
-            tag.Render(); check.Render();
-            alert.Render(); saved.Render(); officer.Render(); shared.Render();
+            sensor.Render();
+            software.Render();
+            plate.Render();
+            sound.Render();
+            video.Render();
+            tag.Render();
+            check.Render();
+            alert.Render();
+            saved.Render();
+            officer.Render();
+            shared.Render();
 
             // Labels on the decision lines
             Text("match", 219, 342, 0, 0, 12, DARKGRAY, interFont, false).Render();
             Text("no match", 480, 342, 0, 0, 12, DARKGRAY, interFont, false).Render();
 
             goToMainButton.Render();
-            if (goToMainButton.Clicked()){
+            if (goToMainButton.Clicked())
+            {
                 currPage = Pages::Main;
             }
         }
-       else if (currPage == Pages::StorageOfData) {
+        else if (currPage == Pages::StorageOfData)
+        {
             ClearBackground(WHITE);
             goToMainButton.Render();
             VIualizeButton.Render();
 
-            if (goToMainButton.Clicked()) {
+            if (goToMainButton.Clicked())
+            {
                 currPage = Pages::Main;
-            } else if (VIualizeButton.Clicked()) {
+            }
+            else if (VIualizeButton.Clicked())
+            {
                 currPage = Pages::StorageOfDataVisualize;
             }
         }
-        else if (currPage == Pages::StorageOfDataVisualize) {
+        else if (currPage == Pages::StorageOfDataVisualize)
+        {
             ClearBackground(WHITE);
             circle1.Render();
             circle2.Render();
@@ -225,7 +253,8 @@ DrawTexture(photo, screenWidth / 2 - photo.width / 2, screenHeight / 2 - photo.h
             Connector(MIDDLEREC, rightBox, Side::Bottom, Side::Top).DrawConnector();
 
             goToMainButton.Render();
-            if (goToMainButton.Clicked()) {
+            if (goToMainButton.Clicked())
+            {
                 currPage = Pages::StorageOfData;
             }
         }
@@ -240,4 +269,3 @@ DrawTexture(photo, screenWidth / 2 - photo.width / 2, screenHeight / 2 - photo.h
     CloseWindow();
     return 0;
 }
-
