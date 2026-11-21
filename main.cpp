@@ -1,17 +1,28 @@
 #include "raylib.h"
 #include "Text.h"
 #include "Connector.h"
+#include "Circle.h"
+
 using namespace std;
 
-enum class Pages { Main, CollectionOfData, StorageOfData, Biometrics, Unmask };
+enum class Pages { Main, CollectionOfData, StorageOfData, Biometrics, Unmask ,StorageOfDataVisualize};
 
 int main()
+
 {
+  
+    const int screenWidth = 1200;
+    const int screenHeight = 800;
+    int spacing = 130;
+    int centerx = 600+50;
+    int centery = (800/2)-90;
     Pages currPage = Pages::Main;
     InitWindow(1200, 800, "Generative AI Infographic");
-
-    const int screenWidth = GetMonitorWidth(0);
-    const int screenHeight = GetMonitorHeight(0);
+  int midX = centerx - 250;
+int midY = (centery + spacing / 2) - 25;
+int midW = 500;
+int midH = 90;
+  
 
     SetTargetFPS(30);
 
@@ -30,7 +41,23 @@ int main()
     Text goToBioButton("BACK", 725, 30, 50, 50, 16, BLACK, defaultFont, true);
     Text collectDataButton("Collection of Data", 300, 100, 240, 90, 16, BLACK, defaultFont, true);
     Text storageButton("Storage of Data", 550, 100, 240, 90, 16, BLACK, defaultFont, true);
-    Text NameButton("Name: joseph rivera\nAge: 27\nSkin Tone: Medium\nOrigin: New York",50,100,300,300,20,BLACK,defaultFont,false );
+    Text NameButton("Name: joseph rivera\nAge: 27\nSkin Tone: Medium\nOrigin: New York",50,100,250,250,20,BLACK,defaultFont,false );
+  Circle circle1 ("DATA",centerx-spacing/2,(centery-spacing/2)-60, 20, 20, YELLOW, defaultFont);
+  Circle circle2 ("DATA",centerx+spacing/2,(centery-spacing/2)-60, 20, 20, GREEN, defaultFont);
+  Circle circle3 ("DATA",centerx-spacing/2,(centery+spacing/2)-60, 20, 20, BLUE, defaultFont);
+  Circle circle4 ("DATA",centerx+spacing/2,(centery+spacing/2)-60, 20, 20, RED, defaultFont);
+
+Text MIDDLEREC("Adjustable Blocks of Data", midX, midY, midW, midH, 16, BLACK, defaultFont, false);
+
+int boxW = 150;
+int boxH = 70;
+int boxY = midY + midH + 35; // Below MIDDLEREC with a 35px gap
+
+Text leftBox("Live Storage", midX, boxY, boxW, boxH, 14, BLACK, defaultFont, false);
+Text middleBox("Encrypted Archive", midX + (midW / 2) - (boxW / 2), boxY, boxW, boxH, 14, BLACK, defaultFont, false);
+Text rightBox("Auto-Purge", midX + midW - boxW, boxY, boxW, boxH, 14, BLACK, defaultFont, false);
+Text VIualizeButton("Visualize", 725, 90, 50, 50, 16, BLACK, defaultFont, true);
+
     while (!WindowShouldClose()){
         BeginDrawing();
 
@@ -62,7 +89,7 @@ int main()
             Text("Camera feed/Scrapped Image ", 75, 185, 0, 0, 14, BLACK, defaultFont, false).Render();
                if (facialtex.id != 0)
             {
-                DrawTextureEx(camerascrapped, (Vector2){90.0f, 190.0f}, 0.08f, 0.08f, WHITE);
+                DrawTextureEx(camerascrapped, (Vector2){180.0f, 270.0f}, 0.08f, 0.08f, WHITE);
             }
             DrawLine(380, 195, 440, 195, BLACK);
             DrawRectangleRounded((Rectangle){440, 150, 310, 90}, 0.2f, 4, LIGHTGRAY);
@@ -115,8 +142,7 @@ int main()
         }
         else if (currPage == Pages::Unmask){
             ClearBackground(RAYWHITE);
-            DrawTexture(photo, screenWidth / 2 - photo.width / 2, screenHeight / 2 - photo.height / 2, WHITE);
-             NameButton.Render();
+DrawTexture(photo, screenWidth / 2 - photo.width / 2, screenHeight / 2 - photo.height / 2, WHITE);  NameButton.Render();
             goToBioButton.Render();
             if (goToBioButton.Clicked())
             {
@@ -172,13 +198,35 @@ int main()
                 currPage = Pages::Main;
             }
         }
-        else if (currPage == Pages::StorageOfData){
+       else if (currPage == Pages::StorageOfData) {
             ClearBackground(WHITE);
+            goToMainButton.Render();
+            VIualizeButton.Render();
+
+            if (goToMainButton.Clicked()) {
+                currPage = Pages::Main;
+            } else if (VIualizeButton.Clicked()) {
+                currPage = Pages::StorageOfDataVisualize;
+            }
+        }
+        else if (currPage == Pages::StorageOfDataVisualize) {
+            ClearBackground(WHITE);
+            circle1.Render();
+            circle2.Render();
+            circle3.Render();
+            circle4.Render();
+            MIDDLEREC.Render();
+            leftBox.Render();
+            middleBox.Render();
+            rightBox.Render();
+
+            Connector(MIDDLEREC, leftBox, Side::Bottom, Side::Top).DrawConnector();
+            Connector(MIDDLEREC, middleBox, Side::Bottom, Side::Top).DrawConnector();
+            Connector(MIDDLEREC, rightBox, Side::Bottom, Side::Top).DrawConnector();
 
             goToMainButton.Render();
-            if (goToMainButton.Clicked())
-            {
-                currPage = Pages::Main;
+            if (goToMainButton.Clicked()) {
+                currPage = Pages::StorageOfData;
             }
         }
 
@@ -187,8 +235,9 @@ int main()
 
     UnloadFont(interFont);
     UnloadTexture(photo);
-    unloadTexture(camerascrapped);
+    UnloadTexture(camerascrapped);
     UnloadTexture(facialtex);
     CloseWindow();
     return 0;
 }
+
