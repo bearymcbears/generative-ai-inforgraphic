@@ -20,13 +20,16 @@ void Text::Render()
 
     int numLines = 0;
 
-    for (int i = 0; text[i] != '\0'; i++)
-    {
-        if (text[i] == '\n')
-        {
+    for (int i = 0; text[i] != '\0'; i++) {
+        if (text[i] == '\n') {
             numLines++;
         }
     }
+
+    DrawText(text,
+    posX + ((width - MeasureText(text, fontSize)) / 2),
+    posY + ((height - (fontSize + numLines * 18)) / 2),
+    16, BLACK);
 
     Vector2 textSize = MeasureTextEx(font, text, (float)fontSize, 1.0f);
 
