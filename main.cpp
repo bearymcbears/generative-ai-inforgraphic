@@ -12,13 +12,14 @@ enum class Pages
     StorageOfData,
     Biometrics,
     Unmask,
-    StorageOfDataVisualize
+    StorageOfDataExplained
+
+
 };
 
 int main()
 
 {
-
     const int screenWidth = 1200;
     const int screenHeight = 800;
     int spacing = 130;
@@ -43,12 +44,14 @@ int main()
     Font interFont = LoadFont("assets/fonts/Inter-VariableFont_opsz,wght.ttf");
 
     Text bioButton("Biometrics", 50, 100, 240, 90, 16, BLACK, defaultFont, true);
-    Text goToMainButton("BACK", 725, 30, 50, 50, 16, BLACK, defaultFont, true);
-    Text unmaskButton("Unmask", 725, 90, 50, 50, 16, BLACK, defaultFont, true);
-    Text goToBioButton("BACK", 725, 30, 50, 50, 16, BLACK, defaultFont, true);
+    Text goToMainButton("BACK", 925, 30, 50, 50, 16, BLACK, defaultFont, true);
+    Text unmaskButton("Unmask", 925, 90, 50, 50, 16, BLACK, defaultFont, true);
+    Text goToBioButton("BACK", 925, 30, 50, 50, 16, BLACK, defaultFont, true);
     Text collectDataButton("Collection of Data", 300, 100, 240, 90, 16, BLACK, defaultFont, true);
     Text storageButton("Storage of Data", 550, 100, 240, 90, 16, BLACK, defaultFont, true);
     Text NameButton("Name: joseph rivera\nAge: 27\nSkin Tone: Medium\nOrigin: New York", 50, 100, 250, 250, 20, BLACK, defaultFont, false);
+    
+
     Circle circle1("DATA", centerx - spacing / 2, (centery - spacing / 2) - 60, 20, 20, YELLOW, defaultFont);
     Circle circle2("DATA", centerx + spacing / 2, (centery - spacing / 2) - 60, 20, 20, GREEN, defaultFont);
     Circle circle3("DATA", centerx - spacing / 2, (centery + spacing / 2) - 60, 20, 20, BLUE, defaultFont);
@@ -63,7 +66,7 @@ int main()
     Text leftBox("Live Storage", midX, boxY, boxW, boxH, 14, BLACK, defaultFont, false);
     Text middleBox("Encrypted Archive", midX + (midW / 2) - (boxW / 2), boxY, boxW, boxH, 14, BLACK, defaultFont, false);
     Text rightBox("Auto-Purge", midX + midW - boxW, boxY, boxW, boxH, 14, BLACK, defaultFont, false);
-    Text VIualizeButton("Visualize", 725, 90, 50, 50, 16, BLACK, defaultFont, true);
+    Text Explaination("EXPLAIN", 925, 90, 50, 50, 16, BLACK, defaultFont, true);
 
     while (!WindowShouldClose())
     {
@@ -224,21 +227,6 @@ int main()
         else if (currPage == Pages::StorageOfData)
         {
             ClearBackground(WHITE);
-            goToMainButton.Render();
-            VIualizeButton.Render();
-
-            if (goToMainButton.Clicked())
-            {
-                currPage = Pages::Main;
-            }
-            else if (VIualizeButton.Clicked())
-            {
-                currPage = Pages::StorageOfDataVisualize;
-            }
-        }
-        else if (currPage == Pages::StorageOfDataVisualize)
-        {
-            ClearBackground(WHITE);
             circle1.Render();
             circle2.Render();
             circle3.Render();
@@ -253,7 +241,52 @@ int main()
             Connector(MIDDLEREC, rightBox, Side::Bottom, Side::Top).DrawConnector();
 
             goToMainButton.Render();
+            Explaination.Render();
             if (goToMainButton.Clicked())
+            {
+                currPage = Pages::Main;
+            }
+            else if (Explaination.Clicked())
+            {
+                currPage = Pages::StorageOfDataExplained;
+            }
+        }
+        else if (currPage == Pages::StorageOfDataExplained)
+        {
+            const int gap = 12;
+            const float colW = (midW - (2.0f * gap)) / 3.0f;
+
+            ClearBackground(WHITE);
+
+            Circle Audio("Audio", centerx - spacing / 2, (centery - spacing / 2) - 60, 20, 20, YELLOW, defaultFont);
+            Circle Image("Image", centerx + spacing / 2, (centery - spacing / 2) - 60, 20, 20, GREEN, defaultFont);
+            Circle GPS("GPS", centerx - spacing / 2, (centery + spacing / 2) - 60, 20, 20, BLUE, defaultFont);
+            Circle Video("Video", centerx + spacing / 2, (centery + spacing / 2) - 60, 20, 20, RED, defaultFont);
+            Text Middle("Software groups incoming streams into variable-sized blocks\nthat automatically adjust their size and detail based on scene activity.\nEach block is then stamped with time, location, and camera ID metadata\nso the system can easily sort and retrieve it later.", midX, midY, midW, midH, 16, BLACK, defaultFont, false);
+            Text ExplainationLeft("Live Storage:\nHolds active, recent data blocks\n.", midX-200, boxY, colW, boxH, 12, BLACK, defaultFont, false);
+            Text ExplainationMiddle("Encrypted Archive:\nStores older data blocks\n in a secure,\nencrypted format\n.", midX+0 + colW + gap, boxY, colW, boxH, 12, BLACK, defaultFont, false);
+            Text ExplainationRight("Auto-Purge:\nDeletes data blocks after a set retention\n period to manage\n storage space.", midX + 2 * (colW + gap)+200, boxY, colW, boxH, 12, BLACK, defaultFont, false);
+
+            Audio.Render();
+            Image.Render();
+            GPS.Render();
+            Video.Render();
+            Middle.Render();
+            ExplainationLeft.Render();
+            ExplainationMiddle.Render();
+            ExplainationRight.Render();
+
+            Connector(Middle, ExplainationLeft, Side::Bottom, Side::Top).DrawConnector();
+            Connector(Middle, ExplainationMiddle, Side::Bottom, Side::Top).DrawConnector();
+            Connector(Middle, ExplainationRight, Side::Bottom, Side::Top).DrawConnector();
+
+            goToMainButton.Render();
+            Explaination.Render();
+            if (goToMainButton.Clicked())
+            {
+                currPage = Pages::Main;
+            }
+            else if (Explaination.Clicked())
             {
                 currPage = Pages::StorageOfData;
             }
