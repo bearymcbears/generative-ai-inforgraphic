@@ -56,23 +56,24 @@ Texture2D predictionstex = LoadTexture("assets/images/policepredictions.jpg.jpg"
 
     Font defaultFont = GetFontDefault();
     Font interFont = LoadFont("assets/fonts/Inter-VariableFont_opsz,wght.ttf");
-
-   Text bioButton("Biometrics", 50, 100, 240, 90, 16, BLACK, defaultFont, true);
-    Text collectDataButton("Collection of Data", 300, 100, 240, 90, 16, BLACK, defaultFont, true);
-    Text storageButton("Storage of Data", 550, 100, 240, 90, 16, BLACK, defaultFont, true);
-    Text PredictionsButton("Predictions", 800, 100, 240, 90, 16, BLACK, defaultFont, true);
+    Circle BioButton("Biometrics", 100, 200, 60, 16, YELLOW, defaultFont, true);
+    Circle CollectionButton("Collection of Data", 300, 200, 60, 16, GREEN, defaultFont, true);
+    Circle StorageButton("Storage of Data", 500, 200, 60, 16, BLUE, defaultFont, true);
+    Circle PredictionsButton("Predictions", 700, 200, 60, 16, RED, defaultFont, true);
+    Circle Dashboard("Managing\n Dashboard ", 900, 200, 70, 16, GRAY, defaultFont, true);
+  
     Text VisualizePredictionsButton("Visualize", 1050, 30, 80, 45, 16, BLACK, defaultFont, true);
     Text goToMainButton("BACK", 925, 30, 80, 45, 16, BLACK, defaultFont, true);
     Text unmaskButton("Unmask", 925, 90, 80, 45, 16, BLACK, defaultFont, true);
     Text goToBioButton("BACK", 925, 30, 80, 45, 16, BLACK, defaultFont, true);
     Text Explaination("EXPLAIN", 925, 90, 80, 45, 16, BLACK, defaultFont, true);
-    Text Dashboard("Dashboard to manage everything", 50, 300, 240, 120, 16, BLACK, defaultFont, true);
+  //  Text Dashboard("Dashboard to manage everything", 50, 300, 240, 120, 16, BLACK, defaultFont, true);
     Text NameButton("Name: joseph rivera\nAge: 27\nSkin Tone: Medium\nOrigin: New York", 50, 100, 250, 250, 20, BLACK, defaultFont, false);
 Text Back("BACK", 925, 30, 80, 45, 16, BLACK, defaultFont, true);
-    Circle circle1("DATA", centerx - spacing / 2, (centery - spacing / 2) - 60, 20, 20, YELLOW, defaultFont);
-    Circle circle2("DATA", centerx + spacing / 2, (centery - spacing / 2) - 60, 20, 20, GREEN, defaultFont);
-    Circle circle3("DATA", centerx - spacing / 2, (centery + spacing / 2) - 60, 20, 20, BLUE, defaultFont);
-    Circle circle4("DATA", centerx + spacing / 2, (centery + spacing / 2) - 60, 20, 20, RED, defaultFont);
+    Circle circle1("DATA", centerx - spacing / 2, (centery - spacing / 2) - 60, 20, 20, YELLOW, defaultFont,false);
+    Circle circle2("DATA", centerx + spacing / 2, (centery - spacing / 2) - 60, 20, 20, GREEN, defaultFont,false);
+    Circle circle3("DATA", centerx - spacing / 2, (centery + spacing / 2) - 60, 20, 20, BLUE, defaultFont,false);
+    Circle circle4("DATA", centerx + spacing / 2, (centery + spacing / 2) - 60, 20, 20, RED, defaultFont,false);
 
     Text MIDDLEREC("Adjustable Blocks of Data", midX, midY, midW, midH, 16, BLACK, defaultFont, false);
 
@@ -94,20 +95,20 @@ Text Back("BACK", 925, 30, 80, 45, 16, BLACK, defaultFont, true);
             ClearBackground(WHITE);
             Text("AI AND SURVEILLANCE", 50, 40, 0, 0, 28, BLACK, interFont, false).Render();
 
-            bioButton.Render();
-            collectDataButton.Render();
-            storageButton.Render();
+            BioButton.Render();
+            CollectionButton.Render();
+            StorageButton.Render();
             PredictionsButton.Render();
            Dashboard.Render();
-            if (bioButton.Clicked())
+            if (BioButton.Clicked())
             {
                 currPage = Pages::Biometrics;
             }
-            else if (collectDataButton.Clicked())
+            else if (CollectionButton.Clicked())
             {
                 currPage = Pages::CollectionOfData;
             }
-            else if (storageButton.Clicked())
+            else if (StorageButton.Clicked())
             {
                 currPage = Pages::StorageOfData;
             }
@@ -118,7 +119,9 @@ Text Back("BACK", 925, 30, 80, 45, 16, BLACK, defaultFont, true);
         }
         else if (currPage == Pages::Biometrics)
         {
+
             ClearBackground(WHITE);
+        Text storage ("click unmask to view a visualization of face recognition ", 50, 40, 0, 0, 22, BLACK, defaultFont, false);storage .Render();
             Color babyBlue = {137, 207, 240, 255};
             Text(" Pattern Recognition & Identifying through Biometrics ", 50, 40, 0, 0, 22, BLACK, defaultFont, false).Render();
 
@@ -251,6 +254,9 @@ Text Back("BACK", 925, 30, 80, 45, 16, BLACK, defaultFont, true);
        else  if (currPage == Pages::StorageOfData)
         {
             ClearBackground(WHITE);
+        Text storage ("A Visualization of how Data is stored", 50, 40, 0, 0, 22, BLACK, defaultFont, false);
+        storage.Render();
+
             circle1.Render();
             circle2.Render();
             circle3.Render();
@@ -282,11 +288,12 @@ Text Back("BACK", 925, 30, 80, 45, 16, BLACK, defaultFont, true);
             const float colW = (midW - (2.0f * gap)) / 3.0f;
 
             ClearBackground(WHITE);
+        Text storageexplain ("A Explaination of how Data is stored", 50, 40, 0, 0, 22, BLACK, defaultFont, false);storageexplain .Render();
 
-            Circle Audio("Audio", centerx - spacing / 2, (centery - spacing / 2) - 60, 20, 20, YELLOW, defaultFont);
-            Circle Image("Image", centerx + spacing / 2, (centery - spacing / 2) - 60, 20, 20, GREEN, defaultFont);
-            Circle GPS("GPS", centerx - spacing / 2, (centery + spacing / 2) - 60, 20, 20, BLUE, defaultFont);
-            Circle Video("Video", centerx + spacing / 2, (centery + spacing / 2) - 60, 20, 20, RED, defaultFont);
+            Circle Audio("Audio", centerx - spacing / 2, (centery - spacing / 2) - 60, 20, 20, YELLOW, defaultFont,false);
+            Circle Image("Image", centerx + spacing / 2, (centery - spacing / 2) - 60, 20, 20, GREEN, defaultFont,false);
+            Circle GPS("GPS", centerx - spacing / 2, (centery + spacing / 2) - 60, 20, 20, BLUE, defaultFont,false);
+            Circle Video("Video", centerx + spacing / 2, (centery + spacing / 2) - 60, 20, 20, RED, defaultFont,false);
 
             Text Middle("Software groups incoming streams into variable-sized blocks\nthat automatically adjust their size and detail based on scene activity.\nEach block is then stamped with time, location, and camera ID metadata\nso the system can easily sort and retrieve it later.", midX, midY, midW, midH, 16, BLACK, defaultFont, false);
             Text ExplainationLeft("Live Storage:\nHolds active, recent data blocks.", midX - 200, boxY, colW, boxH, 12, BLACK, defaultFont, false);
@@ -446,10 +453,7 @@ else if (currPage == Pages::DASHBOARDVISUALIZE)
         WHITE
     );
 
-    Text DASHBOARDVISUALIZEINTRO(
-        "DAS Operations Room Visualization",
-        50, 30, 0, 0, 24, BLACK, interFont, false
-    );
+    Text DASHBOARDVISUALIZEINTRO( "DAS Operations Room Visualization",50, 30, 0, 0, 24, BLACK, interFont, false);
 
     DASHBOARDVISUALIZEINTRO.Render();
 
@@ -473,4 +477,5 @@ else if (currPage == Pages::DASHBOARDVISUALIZE)
     curl_global_cleanup();
     return 0;
 }
+
 
