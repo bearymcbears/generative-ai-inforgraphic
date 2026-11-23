@@ -15,7 +15,9 @@ enum class Pages
     StorageOfData,
     Biometrics,
     Unmask,
-    StorageOfDataExplained
+    StorageOfDataExplained,  
+    Predictions,
+    VisualizePredictions
 
 
 };
@@ -44,20 +46,24 @@ int main()
     Texture2D photo = LoadTexture("assets/images/_116381967_facemask.jpg");
     Texture2D facialtex = LoadTexture("assets/images/Gemini_Generated_Image_3iwtae3iwtae3iwt.jpg");
     Texture2D camerascrapped = LoadTexture("assets/images/Gemini_Generated_Image_2laahr2laahr2laa.jpg");
+Texture2D predictionstex = LoadTexture("/workspaces/generative-ai-inforgraphic/assets/policepredictions.jpg.jpg");
 
     bool hasPhoto = (photo.id != 0);
 
     Font defaultFont = GetFontDefault();
     Font interFont = LoadFont("assets/fonts/Inter-VariableFont_opsz,wght.ttf");
 
-    Text bioButton("Biometrics", 50, 100, 240, 90, 16, BLACK, defaultFont, true);
-    Text goToMainButton("BACK", 925, 30, 50, 50, 16, BLACK, defaultFont, true);
-    Text unmaskButton("Unmask", 925, 90, 50, 50, 16, BLACK, defaultFont, true);
-    Text goToBioButton("BACK", 925, 30, 50, 50, 16, BLACK, defaultFont, true);
+   Text bioButton("Biometrics", 50, 100, 240, 90, 16, BLACK, defaultFont, true);
     Text collectDataButton("Collection of Data", 300, 100, 240, 90, 16, BLACK, defaultFont, true);
     Text storageButton("Storage of Data", 550, 100, 240, 90, 16, BLACK, defaultFont, true);
+    Text PredictionsButton("Predictions", 800, 100, 240, 90, 16, BLACK, defaultFont, true);
+    Text VisualizePredictionsButton("Visualize", 1050, 30, 80, 45, 16, BLACK, defaultFont, true);
+    Text goToMainButton("BACK", 925, 30, 80, 45, 16, BLACK, defaultFont, true);
+    Text unmaskButton("Unmask", 925, 90, 80, 45, 16, BLACK, defaultFont, true);
+    Text goToBioButton("BACK", 925, 30, 80, 45, 16, BLACK, defaultFont, true);
+    Text Explaination("EXPLAIN", 925, 90, 80, 45, 16, BLACK, defaultFont, true);
+
     Text NameButton("Name: joseph rivera\nAge: 27\nSkin Tone: Medium\nOrigin: New York", 50, 100, 250, 250, 20, BLACK, defaultFont, false);
-    
 
     Circle circle1("DATA", centerx - spacing / 2, (centery - spacing / 2) - 60, 20, 20, YELLOW, defaultFont);
     Circle circle2("DATA", centerx + spacing / 2, (centery - spacing / 2) - 60, 20, 20, GREEN, defaultFont);
@@ -68,12 +74,12 @@ int main()
 
     int boxW = 150;
     int boxH = 70;
-    int boxY = midY + midH + 35; // Below MIDDLEREC with a 35px gap
+    int boxY = midY + midH + 35;
 
     Text leftBox("Live Storage", midX, boxY, boxW, boxH, 14, BLACK, defaultFont, false);
     Text middleBox("Encrypted Archive", midX + (midW / 2) - (boxW / 2), boxY, boxW, boxH, 14, BLACK, defaultFont, false);
     Text rightBox("Auto-Purge", midX + midW - boxW, boxY, boxW, boxH, 14, BLACK, defaultFont, false);
-    Text Explaination("EXPLAIN", 925, 90, 50, 50, 16, BLACK, defaultFont, true);
+
 
     while (!WindowShouldClose())
     {
@@ -87,6 +93,7 @@ int main()
             bioButton.Render();
             collectDataButton.Render();
             storageButton.Render();
+            PredictionsButton.Render();
 
             if (bioButton.Clicked())
             {
@@ -100,6 +107,10 @@ int main()
             {
                 currPage = Pages::StorageOfData;
             }
+            else if (PredictionsButton.Clicked())
+            {
+                currPage = Pages::Predictions;
+            }
         }
         else if (currPage == Pages::Biometrics)
         {
@@ -109,7 +120,7 @@ int main()
 
             DrawRectangleRounded((Rectangle){60, 150, 320, 90}, 0.2f, 4, babyBlue);
             Text("Camera feed/Scrapped Image ", 75, 185, 0, 0, 14, BLACK, defaultFont, false).Render();
-            if (facialtex.id != 0)
+            if (camerascrapped.id != 0)
             {
                 DrawTextureEx(camerascrapped, (Vector2){180.0f, 270.0f}, 0.08f, 0.08f, WHITE);
             }
@@ -165,7 +176,10 @@ int main()
         else if (currPage == Pages::Unmask)
         {
             ClearBackground(RAYWHITE);
-            DrawTexture(photo, screenWidth / 2 - photo.width / 2, screenHeight / 2 - photo.height / 2, WHITE);
+            if (photo.id != 0)
+            {
+                DrawTexture(photo, screenWidth / 2 - photo.width / 2, screenHeight / 2 - photo.height / 2, WHITE);
+            }
             NameButton.Render();
             goToBioButton.Render();
             if (goToBioButton.Clicked())
@@ -200,14 +214,14 @@ int main()
             Connector(check, saved, Side::Right, Side::Left).DrawConnector();
             Connector(alert, officer, Side::Bottom, Side::Top).DrawConnector();
 
-            DrawLineEx({140, 128}, {140, 162}, 3.0f, BLACK); // software -> plate
-            DrawLineEx({370, 128}, {370, 162}, 3.0f, BLACK); // software -> sound
-            DrawLineEx({600, 128}, {600, 162}, 3.0f, BLACK); // software -> video
-            DrawLineEx({140, 218}, {140, 252}, 3.0f, BLACK); // plate -> tag
-            DrawLineEx({370, 218}, {370, 252}, 3.0f, BLACK); // sound -> tag
-            DrawLineEx({600, 218}, {600, 252}, 3.0f, BLACK); // video -> tag
-            DrawLineEx({120, 454}, {120, 500}, 3.0f, BLACK); // officer -> shared
-            DrawLineEx({620, 380}, {620, 500}, 3.0f, BLACK); // saved -> shared
+            DrawLineEx({140, 128}, {140, 162}, 3.0f, BLACK);
+            DrawLineEx({370, 128}, {370, 162}, 3.0f, BLACK);
+            DrawLineEx({600, 128}, {600, 162}, 3.0f, BLACK);
+            DrawLineEx({140, 218}, {140, 252}, 3.0f, BLACK);
+            DrawLineEx({370, 218}, {370, 252}, 3.0f, BLACK);
+            DrawLineEx({600, 218}, {600, 252}, 3.0f, BLACK);
+            DrawLineEx({120, 454}, {120, 500}, 3.0f, BLACK);
+            DrawLineEx({620, 380}, {620, 500}, 3.0f, BLACK);
 
             sensor.Render();
             software.Render();
@@ -221,7 +235,6 @@ int main()
             officer.Render();
             shared.Render();
 
-            // Labels on the decision lines
             Text("match", 219, 342, 0, 0, 12, DARKGRAY, interFont, false).Render();
             Text("no match", 480, 342, 0, 0, 12, DARKGRAY, interFont, false).Render();
 
@@ -231,7 +244,7 @@ int main()
                 currPage = Pages::Main;
             }
         }
-        else if (currPage == Pages::StorageOfData)
+       else  if (currPage == Pages::StorageOfData)
         {
             ClearBackground(WHITE);
             circle1.Render();
@@ -249,6 +262,7 @@ int main()
 
             goToMainButton.Render();
             Explaination.Render();
+
             if (goToMainButton.Clicked())
             {
                 currPage = Pages::Main;
@@ -257,7 +271,7 @@ int main()
             {
                 currPage = Pages::StorageOfDataExplained;
             }
-        }
+        } 
         else if (currPage == Pages::StorageOfDataExplained)
         {
             const int gap = 12;
@@ -269,10 +283,11 @@ int main()
             Circle Image("Image", centerx + spacing / 2, (centery - spacing / 2) - 60, 20, 20, GREEN, defaultFont);
             Circle GPS("GPS", centerx - spacing / 2, (centery + spacing / 2) - 60, 20, 20, BLUE, defaultFont);
             Circle Video("Video", centerx + spacing / 2, (centery + spacing / 2) - 60, 20, 20, RED, defaultFont);
+
             Text Middle("Software groups incoming streams into variable-sized blocks\nthat automatically adjust their size and detail based on scene activity.\nEach block is then stamped with time, location, and camera ID metadata\nso the system can easily sort and retrieve it later.", midX, midY, midW, midH, 16, BLACK, defaultFont, false);
-            Text ExplainationLeft("Live Storage:\nHolds active, recent data blocks\n.", midX-200, boxY, colW, boxH, 12, BLACK, defaultFont, false);
-            Text ExplainationMiddle("Encrypted Archive:\nStores older data blocks\n in a secure,\nencrypted format\n.", midX+0 + colW + gap, boxY, colW, boxH, 12, BLACK, defaultFont, false);
-            Text ExplainationRight("Auto-Purge:\nDeletes data blocks after a set retention\n period to manage\n storage space.", midX + 2 * (colW + gap)+200, boxY, colW, boxH, 12, BLACK, defaultFont, false);
+            Text ExplainationLeft("Live Storage:\nHolds active, recent data blocks.", midX - 200, boxY, colW, boxH, 12, BLACK, defaultFont, false);
+            Text ExplainationMiddle("Encrypted Archive:\nStores older data blocks\nin a secure,\nencrypted format.", midX + colW + gap, boxY, colW, boxH, 12, BLACK, defaultFont, false);
+            Text ExplainationRight("Auto-Purge:\nDeletes data blocks after a set retention\nperiod to manage\nstorage space.", midX + 2 * (colW + gap) + 200, boxY, colW, boxH, 12, BLACK, defaultFont, false);
 
             Audio.Render();
             Image.Render();
@@ -289,20 +304,76 @@ int main()
 
             goToMainButton.Render();
             Explaination.Render();
+
+            if (goToMainButton.Clicked())
+            {
+                currPage = Pages::StorageOfData;
+            }
+             if (Explaination.Clicked())
+            {
+                currPage = Pages::StorageOfDataExplained;
+            }
+        }
+        else if (PredictionsButton.Clicked())
+        {
+            currPage = Pages::Predictions;
+        }   
+       else if (currPage == Pages::Predictions)
+        {
+
+            ClearBackground(WHITE);
+            Text("Predictive Policing & Feedback Loops", 50, 40, 0, 0, 22, BLACK, defaultFont, false).Render();
+
+            Text predictiveAI("Predictive AI Policing", 100, 100, 250, 60, 18, BLACK, defaultFont, false);
+            Text predictiveAI2("Bias & Feedback Loops", 100, 350, 250, 60, 18, BLACK, defaultFont, false);
+            Text predictiveAI3("Broader Surveillance", 100, 600, 250, 60, 18, BLACK, defaultFont, false);
+
+            Text ExplainPredictiveAI("The software took historical crime incident reports and\ngenerated daily predictions of where and when\ncertain crimes might happen.", 600, 95, 400, 70, 16, BLACK, defaultFont, false);
+            Text ExplainPredictiveAI2("Earlier investigations cited in the piece found\nthat Geolitica disproportionately targeted low-income,\nBlack, and Latino neighborhoods.", 600, 345, 400, 70, 16, BLACK, defaultFont, false);
+            Text ExplainPredictiveAI3("Surveillance and law enforcement platforms\nare expanding into broader data\nand patrol-management systems.", 600, 595, 400, 70, 16, BLACK, defaultFont, false);
+
+            predictiveAI.Render();
+            predictiveAI2.Render();
+            predictiveAI3.Render();
+
+            ExplainPredictiveAI.Render();
+            ExplainPredictiveAI2.Render();
+            ExplainPredictiveAI3.Render();
+
+            Connector connector1(predictiveAI, ExplainPredictiveAI, Side::Right, Side::Left);
+            Connector connector2(predictiveAI2, ExplainPredictiveAI2, Side::Right, Side::Left);
+            Connector connector3(predictiveAI3, ExplainPredictiveAI3, Side::Right, Side::Left);
+
+            connector1.DrawConnector();
+            connector2.DrawConnector();
+            connector3.DrawConnector();
+
+            goToMainButton.Render();
             if (goToMainButton.Clicked())
             {
                 currPage = Pages::Main;
             }
-            else if (Explaination.Clicked())
-            {
-                currPage = Pages::StorageOfData;
+            VisualizePredictionsButton.Render();
+              if (VisualizePredictionsButton.Clicked()){
+                currPage = Pages::VisualizePredictions;
             }
+        }
+ else if (currPage == Pages::VisualizePredictions){
+DrawTextureEx(predictionstex, (Vector2){screenWidth / 2 - predictionstex.width / 2, screenHeight / 2 - predictionstex.height / 2}, 0.0f, 1.0f, WHITE);
+            goToMainButton.Render();
+            if (goToMainButton.Clicked())
+            {
+                currPage = Pages::Predictions;
+
+
+           }
         }
 
         EndDrawing();
-    }
 
+}
     UnloadFont(interFont);
+    UnloadTexture(predictionstex);
     UnloadTexture(photo);
     UnloadTexture(camerascrapped);
     UnloadTexture(facialtex);
