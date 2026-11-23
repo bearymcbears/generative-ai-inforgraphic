@@ -1,43 +1,72 @@
 #include "Connector.h"
 
-Connector::Connector(Text startText, Text endText, Side startSide, Side endSide) : startText(startText), endText(endText), startSide(startSide), endSide(endSide) {}
+Connector::Connector(const Text& startText, const Text& endText, Side startSide, Side endSide)
+    : mode(TargetMode::TextMode),
+      startText(startText),
+      endText(endText),
+      startCircle(),
+      endCircle(),
+      startSide(startSide),
+      endSide(endSide) {}
+
+Connector::Connector(const Circle& startCircle, const Circle& endCircle, Side startSide, Side endSide)
+    : mode(TargetMode::CircleMode),
+      startText(),
+      endText(),
+      startCircle(startCircle),
+      endCircle(endCircle),
+      startSide(startSide),
+      endSide(endSide) {}
+
+Vector2 Connector::GetAnchorPoint(const Text& target, Side side) const {
+    float x = static_cast<float>(target.GetPosX());
+    float y = static_cast<float>(target.GetPosY());
+    float w = static_cast<float>(target.GetWidth());
+    float h = static_cast<float>(target.GetHeight());
+
+    switch (side) {
+        case Side::Top:
+            return { x + w / 2.0f, y };
+        case Side::Bottom:
+            return { x + w / 2.0f, y + h };
+        case Side::Left:
+            return { x, y + h / 2.0f };
+        case Side::Right:
+            return { x + w, y + h / 2.0f };
+        default:
+            return { x + w / 2.0f, y + h / 2.0f };
+    }
+}
+
+Vector2 Connector::GetAnchorPoint(const Circle& target, Side side) const {
+    float cx = static_cast<float>(target.GetposX());
+    float cy = static_cast<float>(target.GetposY());
+    float r  = static_cast<float>(target.GetRadius());
+
+    switch (side) {
+        case Side::Top:
+            return { cx, cy - r };
+        case Side::Bottom:
+            return { cx, cy + r };
+        case Side::Left:
+            return { cx - r, cy };
+        case Side::Right:
+            return { cx + r, cy };
+        default:
+            return { cx, cy };
+    }
+}
 
 void Connector::DrawConnector() {
-    Vector2 startPos, endPos;
+    Vector2 startPos{};
+    Vector2 endPos{};
 
-    float startX = static_cast<float>(startText.GetPosX());
-    float startY = static_cast<float>(startText.GetPosY());
-    float endX = static_cast<float>(endText.GetPosX());
-    float endY = static_cast<float>(endText.GetPosY());
-
-    switch (startSide) {
-        case Side::Top:
-            startPos = {startX + startText.GetWidth() / 2.0f, startY};
-            break;
-        case Side::Bottom:
-            startPos = {startX + startText.GetWidth() / 2.0f, startY + startText.GetHeight()};
-            break;
-        case Side::Left:
-            startPos = {startX, startY + startText.GetHeight() / 2.0f};
-            break;
-        case Side::Right:
-            startPos = {startX + startText.GetWidth(), startY + startText.GetHeight() / 2.0f};
-            break;
-    }
-
-    switch (endSide) {
-        case Side::Top:
-            endPos = {endX + endText.GetWidth() / 2.0f, endY};
-            break;
-        case Side::Bottom:
-            endPos = {endX + endText.GetWidth() / 2.0f, endY + endText.GetHeight()};
-            break;
-        case Side::Left:
-            endPos = {endX, endY + endText.GetHeight() / 2.0f};
-            break;
-        case Side::Right:
-            endPos = {endX + endText.GetWidth(), endY + endText.GetHeight() / 2.0f};
-            break;
+    if (mode == TargetMode::TextMode) {
+        startPos = GetAnchorPoint(startText, startSide);
+        endPos   = GetAnchorPoint(endText, endSide);
+    } else {
+        startPos = GetAnchorPoint(startCircle, startSide);
+        endPos   = GetAnchorPoint(endCircle, endSide);
     }
 
     DrawLineEx(startPos, endPos, 3.0f, BLACK);
