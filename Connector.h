@@ -1,19 +1,31 @@
-#ifndef CONNECTOR
-#define CONNECTOR
-#include "Text.h"
+#ifndef CONNECTOR_H
+#define CONNECTOR_H
 
-enum class Side {Top, Bottom, Left, Right};
+#include "Text.h"
+#include "Circle.h"
+
+enum class Side { Top, Bottom, Left, Right };
 
 class Connector {
-    public:
-        Connector(Text startText, Text endText, Side startSide, Side endSide);
-        void DrawConnector();
-    private:
-        Text startText;
-        Text endText;
-        Side startSide;
-        Side endSide;
+public:
+    Connector(const Text& startText, const Text& endText, Side startSide, Side endSide);
+    Connector(const Circle& startCircle, const Circle& endCircle, Side startSide, Side endSide);
+
+    void DrawConnector();
+
+private:
+    enum class TargetMode { TextMode, CircleMode };
+
+    TargetMode mode;
+    Text startText;
+    Text endText;
+    Circle startCircle;
+    Circle endCircle;
+    Side startSide;
+    Side endSide;
+
+    Vector2 GetAnchorPoint(const Text& target, Side side) const;
+    Vector2 GetAnchorPoint(const Circle& target, Side side) const;
 };
 
-
-#endif 
+#endif
