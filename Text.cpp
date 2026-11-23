@@ -36,7 +36,7 @@ void Text::Render()
     };
 
     DrawTextEx(font, text, textPos, (float)fontSize, 1.0f, color);
-
+    
     clock++;
 }
 

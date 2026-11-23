@@ -2,9 +2,12 @@
 #include "Text.h"
 #include "Connector.h"
 #include "Circle.h"
+#include <curl/curl.h>
 
 using namespace std;
 
+
+// enum learned from https://www.w3schools.com/cpp/cpp_enum.asp
 enum class Pages
 {
     Main,
@@ -18,6 +21,9 @@ enum class Pages
 int main()
 
 {
+    curl_global_init(CURL_GLOBAL_DEFAULT);   
+    CURL* curl = curl_easy_init();           
+    if (!curl) return 1;
 
     const int screenWidth = 1200;
     const int screenHeight = 800;
@@ -267,5 +273,6 @@ int main()
     UnloadTexture(camerascrapped);
     UnloadTexture(facialtex);
     CloseWindow();
+    curl_global_cleanup();
     return 0;
 }
