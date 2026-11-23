@@ -3,6 +3,7 @@
 #include "Connector.h"
 #include "Circle.h"
 #include <curl/curl.h>
+#include <iostream>
 
 using namespace std;
 
@@ -17,7 +18,9 @@ enum class Pages
     Unmask,
     StorageOfDataExplained,  
     Predictions,
-    VisualizePredictions
+    VisualizePredictions,
+    Dashboard,
+    DASHBOARDVISUALIZE
 
 
 };
@@ -46,7 +49,8 @@ int main()
     Texture2D photo = LoadTexture("assets/images/_116381967_facemask.jpg");
     Texture2D facialtex = LoadTexture("assets/images/Gemini_Generated_Image_3iwtae3iwtae3iwt.jpg");
     Texture2D camerascrapped = LoadTexture("assets/images/Gemini_Generated_Image_2laahr2laahr2laa.jpg");
-Texture2D predictionstex = LoadTexture("/workspaces/generative-ai-inforgraphic/assets/policepredictions.jpg.jpg");
+Texture2D predictionstex = LoadTexture("assets/images/policepredictions.jpg.jpg");
+    Texture2D DAS = LoadTexture("assets/images/DAS_visualization.jpg");
 
     bool hasPhoto = (photo.id != 0);
 
@@ -62,9 +66,9 @@ Texture2D predictionstex = LoadTexture("/workspaces/generative-ai-inforgraphic/a
     Text unmaskButton("Unmask", 925, 90, 80, 45, 16, BLACK, defaultFont, true);
     Text goToBioButton("BACK", 925, 30, 80, 45, 16, BLACK, defaultFont, true);
     Text Explaination("EXPLAIN", 925, 90, 80, 45, 16, BLACK, defaultFont, true);
-
+    Text Dashboard("Dashboard to manage everything", 50, 300, 240, 120, 16, BLACK, defaultFont, true);
     Text NameButton("Name: joseph rivera\nAge: 27\nSkin Tone: Medium\nOrigin: New York", 50, 100, 250, 250, 20, BLACK, defaultFont, false);
-
+Text Back("BACK", 925, 30, 80, 45, 16, BLACK, defaultFont, true);
     Circle circle1("DATA", centerx - spacing / 2, (centery - spacing / 2) - 60, 20, 20, YELLOW, defaultFont);
     Circle circle2("DATA", centerx + spacing / 2, (centery - spacing / 2) - 60, 20, 20, GREEN, defaultFont);
     Circle circle3("DATA", centerx - spacing / 2, (centery + spacing / 2) - 60, 20, 20, BLUE, defaultFont);
@@ -94,7 +98,7 @@ Texture2D predictionstex = LoadTexture("/workspaces/generative-ai-inforgraphic/a
             collectDataButton.Render();
             storageButton.Render();
             PredictionsButton.Render();
-
+           Dashboard.Render();
             if (bioButton.Clicked())
             {
                 currPage = Pages::Biometrics;
@@ -369,15 +373,104 @@ DrawTextureEx(predictionstex, (Vector2){screenWidth / 2 - predictionstex.width /
            }
         }
 
-        EndDrawing();
 
+ if(Dashboard.Clicked()){
+    currPage=Pages::Dashboard;
 }
+
+else if (currPage == Pages::Dashboard)
+{
+    ClearBackground(WHITE);
+
+    Text DASHINTRO(
+        "On August 8, 2012, New York City and Microsoft announced a partnership to bring the Domain Awareness System (DAS).",
+        30, 20, 0, 0, 14, BLACK, interFont, false
+    );
+    DASHINTRO.Render();
+
+    Text DASH1("What DAS Does:", 100, 100, 250, 60, 18, BLACK, interFont, false);
+    Text DASH2("How It Was Built:", 100, 350, 250, 60, 18, BLACK, interFont, false);
+    Text DASH3("Financial Arrangement:", 100, 600, 250, 60, 18, BLACK, interFont, false);
+
+    Text DASHEXPLAIN1("Analyzes live public safety feeds\n to spot threats and track suspects.", 600, 95, 400, 70, 16, BLACK, interFont, false);
+
+    Text DASHEXPLAIN2("Developed by combining NYPD officers' operational experience\n with Microsoft's technical expertise.", 600, 345, 500, 70, 16, BLACK, interFont, false);
+
+    Text DASHEXPLAIN3("The NYPD is to receive 30 percent of revenue from sales of DAS\n to other customers worldwide.", 600, 595, 550, 80, 16, BLACK, interFont, false);
+
+    DASH1.Render();
+    DASH2.Render();
+    DASH3.Render();
+
+    DASHEXPLAIN1.Render();
+    DASHEXPLAIN2.Render();
+    DASHEXPLAIN3.Render();
+
+    Connector connector1(DASH1, DASHEXPLAIN1, Side::Right, Side::Left);
+    Connector connector2(DASH2, DASHEXPLAIN2, Side::Right, Side::Left);
+    Connector connector3(DASH3, DASHEXPLAIN3, Side::Right, Side::Left);
+
+    connector1.DrawConnector();
+    connector2.DrawConnector();
+    connector3.DrawConnector();
+
+    goToMainButton.Render();
+
+    if (goToMainButton.Clicked())
+    {
+        currPage = Pages::Main;
+    }
+
+    VisualizePredictionsButton.Render();
+
+    if (VisualizePredictionsButton.Clicked())
+    {
+        currPage = Pages::DASHBOARDVISUALIZE;
+    }
+}
+
+// INDEPENDENT VISUALIZATION PAGE
+else if (currPage == Pages::DASHBOARDVISUALIZE)
+{
+    ClearBackground(WHITE);
+
+    // Draw image first, scaled down
+    DrawTextureEx(
+        DAS,
+        (Vector2){
+            screenWidth / 2.0f - DAS.width * 0.55f / 2.0f,
+            screenHeight / 2.0f - DAS.height * 0.55f / 2.0f
+        },
+        0.0f,
+        0.55f,
+        WHITE
+    );
+
+    Text DASHBOARDVISUALIZEINTRO(
+        "DAS Operations Room Visualization",
+        50, 30, 0, 0, 24, BLACK, interFont, false
+    );
+
+    DASHBOARDVISUALIZEINTRO.Render();
+
+    goToMainButton.Render();
+
+    if (goToMainButton.Clicked())
+    {
+        currPage = Pages::Main;
+    }
+}
+
+        EndDrawing();
+    }
     UnloadFont(interFont);
     UnloadTexture(predictionstex);
     UnloadTexture(photo);
     UnloadTexture(camerascrapped);
     UnloadTexture(facialtex);
     CloseWindow();
+    UnloadTexture(DAS);
     curl_global_cleanup();
     return 0;
 }
+
