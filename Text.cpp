@@ -19,7 +19,9 @@ void Text::Render() {
     else { 
         DrawRectangleRounded(buttonShape, 0.2f, 4, boxColor); // else draw normal button
     }
-
+// Draw the text centered in the box
+// If width and height are 0, just draw the text at posX, posY
+//used https://www.reddit.com/r/raylib/comments/rh3zm4/center_text/ and https://www.raylib.com/examples/text/loader.html?name=text_words_alignment to develop the idea of how to center text in a box, but modified it to work with multiple lines of text
   if (text != nullptr) {
     // 1. Split text by '\n' into individual lines
     vector<string> lines;
@@ -32,6 +34,7 @@ void Text::Render() {
             current += text[i];
         }
     }
+
     lines.push_back(current);
 
     int lineSpacing = fontSize + 4; // adjust spacing between lines if needed
