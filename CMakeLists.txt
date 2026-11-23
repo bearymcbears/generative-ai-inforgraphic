@@ -16,8 +16,11 @@ main.cpp
 Text.cpp
 Connector.cpp
 Circle.cpp
+PlateRecognizer.cpp
+dotenvparse.cpp
 )
-target_link_libraries(main PRIVATE raylib)
+find_package(CURL REQUIRED)
+target_link_libraries(main PRIVATE raylib CURL::libcurl)
 
 # ==========================================================
 #  HACKATHON: your program. List every .cpp file here.
