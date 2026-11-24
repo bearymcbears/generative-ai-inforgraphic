@@ -1,20 +1,43 @@
-# include "Circle.h"
-# include <iostream>
-using namespace std;
-Circle::Circle(const char *text, int x, int y, int r, int fontsize, Color color, Font font) {
-    this->text = text;
-    posX = x;
-    posY = y;
-    radius = r;
-    this->fontsize = fontsize;
-    this->color = color;
-    this->font = font;
-}
+#include "Circle.h"
+
+Circle::Circle(const char *text, int x, int y, int r, int fontsize, Color color, Font font, bool clickable)
+    : posX(x),
+      posY(y),
+      radius(r),
+      fontsize(fontsize),
+      color(color),
+      font(font),
+      text(text),
+      clickable(clickable),
+      Moving(false) {}
+
 void Circle::Render() {
     DrawCircle(posX, posY, radius, color);
-    Vector2 textpos={
-        float(posX - MeasureText(this->text, fontsize) / 2.0f),
-        float(posY - (float)radius-float(fontsize)-4.0f )
+
+    if (text == nullptr || text[0] == '\0') return;
+
+    Font activeFont = (font.baseSize > 0) ? font : GetFontDefault();
+    float spacing = 1.0f;
+    Vector2 textSize = MeasureTextEx(activeFont, text, static_cast<float>(fontsize), spacing);
+
+    Vector2 textpos = {
+        static_cast<float>(posX) - textSize.x / 2.0f,
+        static_cast<float>(posY) - textSize.y / 2.0f
     };
-    DrawTextEx(font, this->text, textpos, fontsize, 1.0f, BLACK);
+
+    DrawTextEx(activeFont, text, textpos, static_cast<float>(fontsize), spacing, BLACK);
+}
+
+void Circle::Reset() {
+    Moving = false;
+}
+
+bool Circle::Clicked() {
+    return CheckCollisionPointCircle(
+               GetMousePosition(),
+               Vector2{static_cast<float>(posX), static_cast<float>(posY)},
+               static_cast<float>(radius)) &&
+           IsMouseButtonPressed(MOUSE_BUTTON_LEFT) &&
+           !Moving &&
+           clickable;
 }
