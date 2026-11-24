@@ -2,7 +2,6 @@
 #include "Text.h"
 #include "Connector.h"
 #include "Circle.h"
-#include <curl/curl.h>
 #include <iostream>
 #include <cmath>
 #include "PlateRecognizer.h"
@@ -41,9 +40,7 @@ int main()
     Vector2 ballPosition = { -100.0f, -100.0f };
     Color ballColor = DARKBLUE;
     Sound alertSound = LoadSound("assets/fonts/freesound_community-beep-warning-6387.mp3");
-    curl_global_init(CURL_GLOBAL_DEFAULT);   
-    CURL* curl = curl_easy_init();           
-    if (!curl) return 1;
+    PlateRecognizer::Init();
 
     const int screenWidth = 1200;
     const int screenHeight = 800;
@@ -756,7 +753,7 @@ EndDrawing();
     UnloadTexture(manhattanMap);
     CloseAudioDevice();
     UnloadTexture(DAS);
-    curl_global_cleanup();
+    PlateRecognizer::Shutdown();
     return 0;
 }
 

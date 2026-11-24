@@ -1,10 +1,12 @@
+#include <curl/curl.h>
 #include "PlateRecognizer.h"
 #include <iostream>
 #include "dotenvparse.h"
 
 using namespace std;
 
-
+void PlateRecognizer::Init()     { curl_global_init(CURL_GLOBAL_DEFAULT); }
+void PlateRecognizer::Shutdown() { curl_global_cleanup(); }
 // repliactes this curl command: curl -X POST -F "upload=@/tmp/car.jpg" 
 // -H "Authorization: Token YOUR_API_TOKEN" 
 // https://api.platerecognizer.com/v1/plate-reader/
