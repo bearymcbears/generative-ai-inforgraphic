@@ -1,4 +1,5 @@
 #include "Circle.h"
+// A circle class that takes a text, posX, posY, Radius, fontSize, Color, and can be clikced to work as a button 
 
 Circle::Circle(const char *text, int x, int y, int r, int fontsize, Color color, Font font, bool clickable)
     : posX(x),
@@ -10,8 +11,7 @@ Circle::Circle(const char *text, int x, int y, int r, int fontsize, Color color,
       text(text),
       clickable(clickable),
       Moving(false) {}
-
-void Circle::Render() {
+// Draws the circle and centers the label text inside it (using the default font if none is set).void Circle::Render() {
     DrawCircle(posX, posY, radius, color);
 
     if (text == nullptr || text[0] == '\0') return;
@@ -27,11 +27,11 @@ void Circle::Render() {
 
     DrawTextEx(activeFont, text, textpos, static_cast<float>(fontsize), spacing, BLACK);
 }
-
+// Reset movement state so thar the circle can be clicked again 
 void Circle::Reset() {
     Moving = false;
 }
-
+// Return True when the circle is clicked (work as button)
 bool Circle::Clicked() {
     return CheckCollisionPointCircle(
                GetMousePosition(),
