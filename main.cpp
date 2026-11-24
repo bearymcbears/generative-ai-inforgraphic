@@ -111,15 +111,14 @@ int main()
 
 Texture2D manhattanMap = LoadTexture("assets/images/manhattanmap.jpg");
 
-// Procedural beep sound for RED alerts (no external audio file needed)
 //used https://www.raylib.com/examples.html  raylib examples to learn how to use the library and implement the interactive game
 /* used Gemini To create the positions of the spots on the Map when prompt
  How Can I create positions for the spots on the map 
 Accessed November 2026*/
 struct ManhattanSpot {
     const char* name;
-    float u;              // normalized X (0.0 left -> 1.0 right on manhattanmap.jpg)
-    float v;              // normalized Y (0.0 top  -> 1.0 bottom on manhattanmap.jpg)
+    float u;              
+    float v;              
     bool isFlaggedArea; 
     bool spotted;
     const char* infoText;
@@ -579,7 +578,7 @@ else if (currPage == Pages::Dashboard)
     }
 }
 
-// INDEPENDENT VISUALIZATION PAGE
+
 else if (currPage == Pages::DASHBOARDVISUALIZE)
 {
     ClearBackground(WHITE);
@@ -607,12 +606,11 @@ else if (currPage == Pages::DASHBOARDVISUALIZE)
         currPage = Pages::Dashboard;
     }
 }
-  // Inside your main while (!WindowShouldClose()) loop (after BeginDrawing()):
 if (currPage == Pages::InteractiveGame)
 {
     ClearBackground(RAYWHITE);
 // used https://www.raylib.com/examples.html  raylib examples to learn how to use the library and implement the interactive game
-    // Toggle cursor visibility with 'H'
+  
     if (IsKeyPressed(KEY_H))
     {
         if (IsCursorHidden()) ShowCursor();
