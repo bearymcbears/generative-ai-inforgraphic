@@ -37,6 +37,8 @@ int main()
 {
     //used to store the position of the ball in the interactive game
     // Used https://www.raylib.com/examples.html  raylib examples to learn how to use the library and implement the interactive game
+  // used https://www.stopspying.org/guilt-by-association to made my reasearch about  discrimination and policing bias
+  //used also to inform me more on Survillence in East harlem and public housing https://citylimits.org/cameras-or-community-what-keeps-harlem-safe/
     Vector2 ballPosition = { -100.0f, -100.0f };
     Color ballColor = DARKBLUE;
     Sound alertSound = LoadSound("assets/fonts/freesound_community-beep-warning-6387.mp3");
