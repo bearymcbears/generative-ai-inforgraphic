@@ -4,6 +4,11 @@
 #include "Circle.h"
 #include <curl/curl.h>
 #include <iostream>
+#include <cmath>
+/*CS 103 Hacakathon #2 
+  Creating an Interactive Infographic with Raylib to show the impact of
+   generative AI on surveillance technology on society 
+    Team 18 */ 
 
 using namespace std;
 
@@ -21,14 +26,18 @@ enum class Pages
     VisualizePredictions,
     Dashboard,
     DASHBOARDVISUALIZE,
-    MISSION
-
+    MISSION, 
+    InteractiveGame
 
 };
 
 int main()
-
 {
+    //used to store the position of the ball in the interactive game
+    // Used https://www.raylib.com/examples.html  raylib examples to learn how to use the library and implement the interactive game
+    Vector2 ballPosition = { -100.0f, -100.0f };
+    Color ballColor = DARKBLUE;
+    Sound alertSound = LoadSound("assets/fonts/freesound_community-beep-warning-6387.mp3");
     curl_global_init(CURL_GLOBAL_DEFAULT);   
     CURL* curl = curl_easy_init();           
     if (!curl) return 1;
@@ -39,6 +48,7 @@ int main()
     int centerx = 600 + 50;
     int centery = (800 / 2) - 90;
     Pages currPage = Pages::Main;
+
     InitWindow(1200, 800, "Generative AI Infographic");
     int midX = centerx - 250;
     int midY = (centery + spacing / 2) - 25;
@@ -46,58 +56,102 @@ int main()
     int midH = 90;
 
     SetTargetFPS(30);
-
+// Load textures for the images used in the infographic
     Texture2D photo = LoadTexture("assets/images/_116381967_facemask.jpg");
     Texture2D facialtex = LoadTexture("assets/images/Gemini_Generated_Image_3iwtae3iwtae3iwt.jpg");
     Texture2D camerascrapped = LoadTexture("assets/images/Gemini_Generated_Image_2laahr2laahr2laa.jpg");
-Texture2D predictionstex = LoadTexture("assets/images/policepredictions.jpg.jpg");
+    Texture2D predictionstex = LoadTexture("assets/images/policepredictions.jpg.jpg");
     Texture2D DAS = LoadTexture("assets/images/DAS_visualization.jpg");
 
     bool hasPhoto = (photo.id != 0);
-
+// Load fonts for the text used in the infographic
     Font defaultFont = GetFontDefault();
     Font interFont = LoadFont("assets/fonts/Inter-VariableFont_opsz,wght.ttf");
-    Font MyFont=LoadFont("assets/fonts/Lato-Regular.ttf");
-    Circle BioButton("Biometrics", 100, 200, 60, 16, YELLOW, MyFont, true);
-    Circle CollectionButton("Collection of Data", 300, 200, 60, 16, GREEN, MyFont, true);
-    Circle StorageButton("Storage of Data", 500, 200, 60, 16, BLUE, MyFont, true);
-    Circle PredictionsButton("Predictions", 700, 200, 60, 16, RED, MyFont, true);
-    Circle Dashboard("Managing\n Dashboard ", 900, 200, 60, 16, GRAY, MyFont, true);
+    Font MyFont = LoadFont("assets/fonts/Lato-Regular.ttf");
+//Create the buttons and text boxes used in the infographic
+    Circle BioButton("Biometrics", 100, 300, 70, 16, YELLOW, MyFont, true);
+    Circle CollectionButton("Collection of Data", 300, 300, 70, 16, GREEN, MyFont, true);
+    Circle StorageButton("Storage of Data", 500, 300, 70, 16, BLUE, MyFont, true);
+    Circle PredictionsButton("Predictions", 700, 300, 70, 16, RED, MyFont, true);
+    Circle Dashboard("Managing\n Dashboard ", 900, 300, 70, 16, GRAY, MyFont, true);
+//create the text boxes used in the infographic
     Text Mission("Mission", 1000,30, 80, 45, 16, BLACK, MyFont, true);
-
+    Text Game("interactive Game ",1000,100,160,80,12,BLACK,MyFont,true);
     Text VisualizePredictionsButton("Visualize", 1050, 30, 80, 45, 16, BLACK, MyFont, true);
     Text goToMainButton("BACK", 925, 30, 80, 45, 16, BLACK, MyFont, true);
     Text unmaskButton("Unmask", 925, 90, 80, 45, 16, BLACK, MyFont, true);
     Text goToBioButton("BACK", 925, 30, 80, 45, 16, BLACK, MyFont, true);
     Text Explaination("EXPLAIN", 925, 90, 80, 45, 16, BLACK, MyFont, true);
     Text NameButton("Name: joseph rivera\nAge: 27\nSkin Tone: Medium\nOrigin: New York", 50, 100, 250, 250, 20, BLACK, defaultFont, false);
-Text Back("BACK", 925, 30, 80, 45, 16, BLACK, MyFont, true);
+    Text Back("BACK", 925, 30, 80, 45, 16, BLACK, MyFont, true);
+//create circles used to visualize the storage of data in the infographic
     Circle circle1("DATA", centerx - spacing / 2, (centery - spacing / 2) - 90, 30, 20, YELLOW, MyFont,false);
     Circle circle2("DATA", centerx + spacing / 2, (centery - spacing / 2) - 90, 30, 20, GREEN, MyFont,false);
     Circle circle3("DATA", centerx - spacing / 2, (centery + spacing / 2) - 90, 30, 20, BLUE, MyFont,false);
     Circle circle4("DATA", centerx + spacing / 2, (centery + spacing / 2) - 90, 30, 20, RED, MyFont,false);
 
     Text MIDDLEREC("Adjustable Blocks of Data", midX, midY, midW, midH, 16, BLACK, MyFont, false);
-
     int boxW = 150;
     int boxH = 70;
     int boxY = midY + midH + 35;
-
+// create text boxes to explain the storage of data in the infographic
     Text leftBox("Live Storage", midX, boxY, boxW, boxH, 14, BLACK, MyFont, false);
     Text middleBox("Encrypted Archive", midX + (midW / 2) - (boxW / 2), boxY, boxW, boxH, 14, BLACK, MyFont, false);
     Text rightBox("Auto-Purge", midX + midW - boxW, boxY, boxW, boxH, 14, BLACK, MyFont, false);
 
 
+
+
+
+    InitAudioDevice();
+
+Texture2D manhattanMap = LoadTexture("assets/images/manhattanmap.jpg");
+
+// Procedural beep sound for RED alerts (no external audio file needed)
+//used https://www.raylib.com/examples.html  raylib examples to learn how to use the library and implement the interactive game
+/* used Gemini To create the positions of the spots on the Map when prompt
+ How Can I create positions for the spots on the map 
+Accessed November 2026*/
+struct ManhattanSpot {
+    const char* name;
+    float u;              // normalized X (0.0 left -> 1.0 right on manhattanmap.jpg)
+    float v;              // normalized Y (0.0 top  -> 1.0 bottom on manhattanmap.jpg)
+    bool isFlaggedArea; 
+    bool spotted;
+    const char* infoText;
+};
+
+ManhattanSpot manhattanSpots[] = {
+    {"",            0.37f, 0.08f, true,  false, "A major Black Neighborhood Flagged RED: Concentrated patrols/data can fuel bias & unfair racial labeling"},
+    {"",       0.60f, 0.15f, true,  false, " A major Black Neighborhood Flagged RED: High enforcement focus can reinforce a feedback loop"},
+    {".", 0.32f, 0.17f, true,  false, "A major Black Neighborhood  Flagged RED: Adjacent to Harlem; repeated alerts reinforce stereotyping"},
+    {"",   0.32f, 0.31f, false, false, "Safe / BLUE: Lower targeted flag in this simulation"},
+    {"",   0.64f, 0.38f, false, false, "Safe / BLUE: Lower targeted flag in this simulation"},
+    {"",           0.50f, 0.50f, false, false, "Safe / BLUE: Lower targeted flag in this simulation"},
+    {"", 0.38f, 0.72f, false, false, "Safe / BLUE: Lower targeted flag in this simulation"},
+    {"",   0.52f, 0.93f, false, false, "Safe / BLUE: Lower targeted flag in this simulation"},
+    {"",}
+};
+const int manhattanSpotCount = sizeof(manhattanSpots) / sizeof(manhattanSpots[0]);
+
+
+const char* statusBanner = "Move cursor over Manhattan neighborhoods to spot areas (RED = flagged, BLUE = safe)";
+Color statusColor = SKYBLUE;
+
  while (!WindowShouldClose())
     {
+        
+
         BeginDrawing();
+       ClearBackground(WHITE);
 
         if (currPage == Pages::Main)
         {
-            ClearBackground(WHITE);
-            Text("AI AND SURVEILLANCE", 50, 40, 0, 0, 28, BLACK, MyFont, false).Render();
-            Text("Click Mission to learn about the mission of this infographic", 50, 100, 0, 0, 14, BLACK, MyFont, false).Render();
-            Text ("Then, Click the Circle buttons to learn about each stage of the surveillance pipeline", 50, 120, 0, 0, 14, BLACK, MyFont, false).Render();
+            
+          ClearBackground(WHITE);
+            Text ("AI AND SURVEILLANCE", 50, 40, 0, 0, 28, BLACK, MyFont, false).Render();
+            Text("Click Mission to learn about the mission of this infographic\n Click the Game button to play the interactive game", 50, 150, 0, 0, 14, BLACK, MyFont, false).Render();
+            Text ("Then, Click the Circle buttons to learn about each stage of the surveillance pipeline", 50, 200, 0, 0, 14, BLACK, MyFont, false).Render();
             Mission.Render();
 
             BioButton.Render();
@@ -105,7 +159,7 @@ Text Back("BACK", 925, 30, 80, 45, 16, BLACK, MyFont, true);
             StorageButton.Render();
             PredictionsButton.Render();
             Dashboard.Render();
-
+           Game.Render();
             Connector(BioButton, CollectionButton, Side::Right, Side::Left).DrawConnector();
             Connector(CollectionButton, StorageButton, Side::Right, Side::Left).DrawConnector();
             Connector(StorageButton, PredictionsButton, Side::Right, Side::Left).DrawConnector();
@@ -130,6 +184,10 @@ Text Back("BACK", 925, 30, 80, 45, 16, BLACK, MyFont, true);
             else if (PredictionsButton.Clicked())
             {
                 currPage = Pages::Predictions;
+            }
+            else if(Game.Clicked()){
+            currPage = Pages::InteractiveGame;
+
             }
         }
         else if (currPage == Pages::MISSION)
@@ -274,7 +332,7 @@ Text Back("BACK", 925, 30, 80, 45, 16, BLACK, MyFont, true);
         {
 
             ClearBackground(WHITE);
-        Text storage ("A Visualization of how Data is stored", 50, 40, 0, 0, 22, BLACK, MyFont, false);
+        Text storage ("A Visualization of how Data is stored\n click Explaination to learn more", 50, 40, 0, 0, 22, BLACK, MyFont, false);
         storage.Render();
 
             circle1.Render();
@@ -308,7 +366,7 @@ Text Back("BACK", 925, 30, 80, 45, 16, BLACK, MyFont, true);
             const float colW = (midW - (2.0f * gap)) / 3.0f+100;
 
             ClearBackground(WHITE);
-        Text storageexplain ("An Explaination of how Data is stored ", 50, 40, 0, 0, 22, BLACK, MyFont, false);storageexplain .Render();
+        Text storageexplain ("An Explaination of how Data is stored", 50, 40, 0, 0, 22, BLACK, MyFont, false);storageexplain .Render();
 
             Circle Audio("Audio", centerx - spacing / 2, (centery - spacing / 2) - 90, 40, 20, YELLOW, MyFont,false);
             Circle Image("Image", centerx + spacing / 2, (centery - spacing / 2) - 90, 40, 20, GREEN, MyFont,false);
@@ -353,7 +411,7 @@ Text Back("BACK", 925, 30, 80, 45, 16, BLACK, MyFont, true);
         {
 
             ClearBackground(WHITE);
-            Text("Predictive Policing & Feedback Loops", 50, 40, 0, 0, 22, BLACK, MyFont, false).Render();
+            Text("Predictive Policing & Feedback Loops\n click Visualize to see a visualization of predictive policing", 50, 40, 0, 0, 22, BLACK, MyFont, false).Render();
 
             Text predictiveAI("Predictive AI Policing", 100, 100, 250, 60, 18, BLACK, MyFont, false);
             Text predictiveAI2("Bias & Feedback Loops", 100, 350, 250, 60, 18, BLACK, MyFont, false);
@@ -490,20 +548,162 @@ else if (currPage == Pages::DASHBOARDVISUALIZE)
         currPage = Pages::Dashboard;
     }
 }
+  // Inside your main while (!WindowShouldClose()) loop (after BeginDrawing()):
+if (currPage == Pages::InteractiveGame)
+{
+    ClearBackground(RAYWHITE);
+// used https://www.raylib.com/examples.html  raylib examples to learn how to use the library and implement the interactive game
+    // Toggle cursor visibility with 'H'
+    if (IsKeyPressed(KEY_H))
+    {
+        if (IsCursorHidden()) ShowCursor();
+        else HideCursor();
+    }
 
-        EndDrawing();
+    // Optional reset key 'R' to clear spotted flags
+    if (IsKeyPressed(KEY_R))
+    {
+        for (int i = 0; i < manhattanSpotCount; i++)
+        {
+            manhattanSpots[i].spotted = false;
+        }
+        statusColor = SKYBLUE;
+        statusBanner = "Reset spotted flags. Move cursor over Manhattan neighborhoods to scan again.";
+    }
+
+    ballPosition = GetMousePosition();
+
+    // Optional cursor/scanner color changes (kept safe from accidentally firing when clicking BACK)
+    if (IsMouseButtonPressed(MOUSE_BUTTON_MIDDLE)) ballColor = LIME;
+    else if (IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) ballColor = DARKBLUE;
+    else if (IsMouseButtonPressed(MOUSE_BUTTON_SIDE)) ballColor = PURPLE;
+    else if (IsMouseButtonPressed(MOUSE_BUTTON_EXTRA)) ballColor = YELLOW;
+    else if (IsMouseButtonPressed(MOUSE_BUTTON_FORWARD)) ballColor = ORANGE;
+    else if (IsMouseButtonPressed(MOUSE_BUTTON_BACK)) ballColor = BEIGE;
+
+    // Fit manhattanmap.jpg proportionally in the center of the 1200x800 screen
+    Rectangle mapArea = { 340.0f, 25.0f, 520.0f, 655.0f };
+    Rectangle mapRect = mapArea;
+    if (manhattanMap.id != 0 && manhattanMap.width > 0 && manhattanMap.height > 0)
+    {
+        float scaleX = mapArea.width / static_cast<float>(manhattanMap.width);
+        float scaleY = mapArea.height / static_cast<float>(manhattanMap.height);
+        float scale = (scaleX < scaleY) ? scaleX : scaleY;
+
+        float drawW = manhattanMap.width * scale;
+        float drawH = manhattanMap.height * scale;
+        mapRect = {
+            mapArea.x + (mapArea.width - drawW) * 0.5f,
+            mapArea.y + (mapArea.height - drawH) * 0.5f,
+            drawW,
+            drawH
+        };
+
+        DrawTexturePro(
+            manhattanMap,
+            { 0.0f, 0.0f, static_cast<float>(manhattanMap.width), static_cast<float>(manhattanMap.height) },
+            mapRect,
+            { 0.0f, 0.0f },
+            0.0f,
+            WHITE
+        );
+    }
+
+    // Check spotting on every Manhattan neighborhood node
+    float spotRadius = 24.0f;
+    for (int i = 0; i < manhattanSpotCount; i++)
+    {
+        Vector2 pt = {
+            mapRect.x + mapRect.width * manhattanSpots[i].u,
+            mapRect.y + mapRect.height * manhattanSpots[i].v
+        };
+
+        float dx = ballPosition.x - pt.x;
+        float dy = ballPosition.y - pt.y;
+        bool inSpotRange = (dx * dx + dy * dy) <= (spotRadius * spotRadius);
+
+        if (inSpotRange && !manhattanSpots[i].spotted)
+        {
+            manhattanSpots[i].spotted = true;
+
+            if (manhattanSpots[i].isFlaggedArea)
+            {
+                ballColor = RED;
+                statusColor = RED;
+                statusBanner = TextFormat("RED ALERT: Neighborhood flagged for concentrated patrols and data collection (This is a Black neighborhood which reinforces bias in police predictions)");
+                PlaySound(alertSound);
+              }
+        
+    
+        
+            else
+            {
+                ballColor = SKYBLUE;
+                statusColor = SKYBLUE;
+                statusBanner = TextFormat("BLUE ALERT: Neighborhood isn't targeted because it has a lower targeted flag in this simulation");
+            }
+        }
+
+        // Draw node marker on top of the map photo
+        Color markerCol = (manhattanSpots[i].spotted && manhattanSpots[i].isFlaggedArea) ? RED : SKYBLUE;
+        DrawCircleV(pt, 9.0f, markerCol);
+        DrawCircleLines(static_cast<int>(pt.x), static_cast<int>(pt.y), 9.0f, BLACK);
+
+        if (manhattanSpots[i].spotted)
+        {
+            DrawCircleLines(static_cast<int>(pt.x), static_cast<int>(pt.y), 15.0f, markerCol);
+            DrawRectangle(static_cast<int>(pt.x) + 13, static_cast<int>(pt.y) - 20, 64, 15, markerCol);
+            DrawText("SPOTTED", static_cast<int>(pt.x) + 16, static_cast<int>(pt.y) - 18, 10, WHITE);
+        }
+
+        DrawText(manhattanSpots[i].name, static_cast<int>(pt.x) + 13, static_cast<int>(pt.y) - 2, 12, BLACK);
+    }
+
+    // Draw cursor/scanner circle
+    DrawCircleV(ballPosition, 22.0f, Fade(ballColor, 0.35f));
+    DrawCircleLines(static_cast<int>(ballPosition.x), static_cast<int>(ballPosition.y), 22.0f, ballColor);
+
+    // Top-left instructions & cursor status
+    DrawText("Biased Surveillance Simulator", 10, 10, 18, DARKGRAY);
+    DrawText("Press 'H' to toggle cursor | 'R' to reset flags", 10, 32, 16, DARKGRAY);
+    if (IsCursorHidden()) DrawText("CURSOR HIDDEN", 10, 54, 16, RED);
+    else DrawText("CURSOR VISIBLE", 10, 54, 16, DARKGREEN);
+
+    // Bottom alert & bias/feedback-loop bar
+    DrawRectangle(40, 700, 1120, 65, Color{20, 24, 34, 240});
+    DrawRectangleLinesEx({ 40.0f, 700.0f, 1120.0f, 65.0f }, 2.0f, statusColor);
+    DrawText(statusBanner, 55, 722, 15, statusColor);
+
+    // Return to main infographic
+    goToMainButton.Render();
+    if (goToMainButton.Clicked())
+    {
+        currPage = Pages::Main;
+    }
+}
+
+
+EndDrawing();
     }
     UnloadFont(MyFont);
     UnloadFont(interFont);
     UnloadTexture(predictionstex);
+    UnloadSound(alertSound);
     UnloadTexture(photo);
     UnloadTexture(camerascrapped);
     UnloadTexture(facialtex);
     CloseWindow();
+    UnloadTexture(manhattanMap);
+    CloseAudioDevice();
     UnloadTexture(DAS);
     curl_global_cleanup();
     return 0;
 }
+
+
+
+
+
 
 
 
