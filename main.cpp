@@ -3,6 +3,7 @@
 #include "Connector.h"
 #include "Circle.h"
 #include <curl/curl.h>
+#include "PlateRecognizer.h"
 
 using namespace std;
 
@@ -15,9 +16,8 @@ enum class Pages
     StorageOfData,
     Biometrics,
     Unmask,
-    StorageOfDataExplained
-
-
+    StorageOfDataExplained,
+    PlateReader
 };
 
 int main()
@@ -44,6 +44,7 @@ int main()
     Texture2D photo = LoadTexture("assets/images/_116381967_facemask.jpg");
     Texture2D facialtex = LoadTexture("assets/images/Gemini_Generated_Image_3iwtae3iwtae3iwt.jpg");
     Texture2D camerascrapped = LoadTexture("assets/images/Gemini_Generated_Image_2laahr2laahr2laa.jpg");
+    Texture2D plateImage = LoadTexture("assets/images/test car image.png");
 
     bool hasPhoto = (photo.id != 0);
 
@@ -54,6 +55,7 @@ int main()
     Text goToMainButton("BACK", 925, 30, 50, 50, 16, BLACK, defaultFont, true);
     Text unmaskButton("Unmask", 925, 90, 50, 50, 16, BLACK, defaultFont, true);
     Text goToBioButton("BACK", 925, 30, 50, 50, 16, BLACK, defaultFont, true);
+    Text goToCollectionButton("BACK", 925, 30, 50, 50, 16, BLACK, defaultFont, true);
     Text collectDataButton("Collection of Data", 300, 100, 240, 90, 16, BLACK, defaultFont, true);
     Text storageButton("Storage of Data", 550, 100, 240, 90, 16, BLACK, defaultFont, true);
     Text NameButton("Name: joseph rivera\nAge: 27\nSkin Tone: Medium\nOrigin: New York", 50, 100, 250, 250, 20, BLACK, defaultFont, false);
@@ -194,6 +196,8 @@ int main()
             Text officer("Officer is notified\nand responds", 40, 414, 160, 40, fs, BLACK, interFont, false);
             Text shared("Shared databases and dashboards like the NYPD Domain Awareness System", 40, 500, 660, 40, fs, BLACK, interFont, false);
 
+            Text readPlate("Read Plate Example", 925, 100, 50, 50, 16, BLACK, defaultFont, true);
+
             Connector(sensor, software, Side::Bottom, Side::Top).DrawConnector();
             Connector(tag, check, Side::Bottom, Side::Top).DrawConnector();
             Connector(check, alert, Side::Left, Side::Right).DrawConnector();
@@ -220,6 +224,7 @@ int main()
             saved.Render();
             officer.Render();
             shared.Render();
+            readPlate.Render();
 
             // Labels on the decision lines
             Text("match", 219, 342, 0, 0, 12, DARKGRAY, interFont, false).Render();
@@ -229,6 +234,58 @@ int main()
             if (goToMainButton.Clicked())
             {
                 currPage = Pages::Main;
+            }
+            if (readPlate.Clicked())
+            {
+                currPage = Pages::PlateReader;
+            }
+        } else if (currPage == Pages::PlateReader)
+        {
+            ClearBackground(WHITE);
+            Text("Plate Reader", 50, 40, 0, 0, 28, BLACK, interFont, false).Render();
+            int xPos = screenWidth / 2 - 500;
+            int yPos = screenHeight / 2 - 200;
+            Text imageToAnalyze("Image to Analyze", xPos, yPos - 50, 400, 50, 20, BLACK, interFont, false, WHITE);
+            Text uploadImageArea = Text("Drop Image Here", xPos , yPos, 400, 400, 20, WHITE, interFont, false, LIGHTGRAY);
+            Text plateResult = Text("Plate Result: ", xPos + 500, yPos - 50, 400, 50, 20, BLACK, interFont, false, WHITE);
+            bool imageUploaded = false;
+            string imagePath = "";
+
+            Rectangle dropZone = { xPos, yPos, 400.0f, 400.0f };
+
+            if (IsFileDropped()){
+                FilePathList dropped = LoadDroppedFiles();
+                Vector2 mouse = GetMousePosition();
+
+                if (CheckCollisionPointRec(mouse, dropZone) && dropped.count > 0) {
+                    imagePath = dropped.paths[0];
+                    if (IsFileExtension(imagePath.c_str(), ".png") || IsFileExtension(imagePath.c_str(), ".jpg")) {
+                        imageUploaded = true;
+                    } else {
+                        plateResult = Text("Invalid file type. Please drop a PNG or JPG image.", xPos + 500, yPos - 50, 400, 50, 20, RED, interFont, false, WHITE);
+                    }
+                }
+
+                UnloadDroppedFiles(dropped);
+            }
+
+            if (imageUploaded){
+                Image img = LoadImage(imagePath.c_str());
+                ImageResize(&img, 400, 400);
+                Texture2D uploadedImage = LoadTextureFromImage(img);
+                DrawTextureEx(uploadedImage, (Vector2){(float)xPos, (float)yPos}, 0.0f, 1.0f, WHITE);
+            } else {
+                uploadImageArea.Render();
+            }
+            goToCollectionButton.Render();
+            imageToAnalyze.Render();
+            plateResult.Render();
+
+            // string text = PlateRecognizer::ReadPlate("assets/images/test car image.png");
+            
+            if (goToCollectionButton.Clicked())
+            {
+                currPage = Pages::CollectionOfData;
             }
         }
         else if (currPage == Pages::StorageOfData)

@@ -5,7 +5,7 @@
 class Text {
 
 public:
-    Text(char *text, int posX, int posY, int w, int h, int fontSize, Color color, Font font, bool clickable);
+    Text(char *text, int posX, int posY, int w, int h, int fontSize, Color color, Font font, bool clickable, Color boxColor = {137, 207, 240, 255});
     int GetPosX() { return posX; }
     int GetPosY() { return posY; }
     int GetWidth() { return width; }
@@ -25,7 +25,7 @@ private:
     Color color; // color of the text
     char* text; // the displayed text
     Rectangle buttonShape; // rectangle object that determines the shape of the text box
-    Color boxColor = {137, 207, 240, 255}; // color of the text box
+    Color boxColor; // color of the text box
     int clock = 0; // internal clock used to coordinate movement
     bool clickable; // boolean that determines if a text box is clickable
     bool currMoving = false; // boolean that determines if a text box is currently moving, moving boxes are not clickable

@@ -6,8 +6,8 @@
 #include <algorithm>
 using namespace std;
 
-Text::Text(char *text, int posX, int posY, int w, int h, int fontSize = 16, Color color = BLACK, Font font = GetFontDefault(), bool clickable = 0):
-posX(posX), posY(posY), width(w), height(h), fontSize(fontSize), color(color), font(font), text(text), clickable(clickable) {}
+Text::Text(char *text, int posX, int posY, int w, int h, int fontSize = 16, Color color = BLACK, Font font = GetFontDefault(), bool clickable = 0, Color boxColor) : initX(posX), initY(posY),
+posX(posX), posY(posY), width(w), height(h), fontSize(fontSize), color(color), font(font), text(text), clickable(clickable), boxColor(boxColor) {}
 
 void Text::Render() {
 
