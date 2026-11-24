@@ -25,6 +25,7 @@ enum class Pages
     Predictions,
     VisualizePredictions,
     Dashboard,
+    PatternRecognition,
     DASHBOARDVISUALIZE,
     MISSION, 
     InteractiveGame
@@ -69,14 +70,15 @@ int main()
     Font interFont = LoadFont("assets/fonts/Inter-VariableFont_opsz,wght.ttf");
     Font MyFont = LoadFont("assets/fonts/Lato-Regular.ttf");
 //Create the buttons and text boxes used in the infographic
-    Circle BioButton("Biometrics", 100, 300, 70, 16, YELLOW, MyFont, true);
-    Circle CollectionButton("Collection of Data", 300, 300, 70, 16, GREEN, MyFont, true);
-    Circle StorageButton("Storage of Data", 500, 300, 70, 16, BLUE, MyFont, true);
-    Circle PredictionsButton("Predictions", 700, 300, 70, 16, RED, MyFont, true);
-    Circle Dashboard("Managing\n Dashboard ", 900, 300, 70, 16, GRAY, MyFont, true);
+    Circle BioButton("Biometrics", 100, 350, 70, 18, YELLOW, MyFont, true);
+    Circle CollectionButton("Collection of Data", 300, 350, 70, 16, GREEN, MyFont, true);
+    Circle StorageButton("Storage of Data", 500, 350, 70, 18, BLUE, MyFont, true);
+    Circle PredictionsButton("Predictions", 700, 350, 70, 18, RED, MyFont, true);
+    Circle Dashboard(" Managing\nDashboard ", 900, 350, 70, 18, GRAY, MyFont, true);
+    Circle PatternRecognition("    Pattern\nRecognition", 1100, 350, 70, 18, PURPLE, MyFont, true);
 //create the text boxes used in the infographic
-    Text Mission("Mission", 1000,30, 80, 45, 16, BLACK, MyFont, true);
-    Text Game("interactive Game ",1000,100,160,80,12,BLACK,MyFont,true);
+    Text Mission("Mission", 1080, 30, 80, 45, 16, BLACK, MyFont, true);
+    Text Game("Interactive Game",1000,100,160,80,16,BLACK,MyFont,true);
     Text VisualizePredictionsButton("Visualize", 1050, 30, 80, 45, 16, BLACK, MyFont, true);
     Text goToMainButton("BACK", 925, 30, 80, 45, 16, BLACK, MyFont, true);
     Text unmaskButton("Unmask", 925, 90, 80, 45, 16, BLACK, MyFont, true);
@@ -84,6 +86,7 @@ int main()
     Text Explaination("EXPLAIN", 925, 90, 80, 45, 16, BLACK, MyFont, true);
     Text NameButton("Name: joseph rivera\nAge: 27\nSkin Tone: Medium\nOrigin: New York", 50, 100, 250, 250, 20, BLACK, defaultFont, false);
     Text Back("BACK", 925, 30, 80, 45, 16, BLACK, MyFont, true);
+    Text Back2("BACK", 1050, 40, 80, 45, 16, BLACK, MyFont, true);
 //create circles used to visualize the storage of data in the infographic
     Circle circle1("DATA", centerx - spacing / 2, (centery - spacing / 2) - 90, 30, 20, YELLOW, MyFont,false);
     Circle circle2("DATA", centerx + spacing / 2, (centery - spacing / 2) - 90, 30, 20, GREEN, MyFont,false);
@@ -138,7 +141,8 @@ const int manhattanSpotCount = sizeof(manhattanSpots) / sizeof(manhattanSpots[0]
 const char* statusBanner = "Move cursor over Manhattan neighborhoods to spot areas (RED = flagged, BLUE = safe)";
 Color statusColor = SKYBLUE;
 
- while (!WindowShouldClose())
+
+ while (!WindowShouldClose() && !IsKeyPressed(KEY_X))
     {
         
 
@@ -149,21 +153,24 @@ Color statusColor = SKYBLUE;
         {
             
           ClearBackground(WHITE);
-            Text ("AI AND SURVEILLANCE", 50, 40, 0, 0, 28, BLACK, MyFont, false).Render();
-            Text("Click Mission to learn about the mission of this infographic\n Click the Game button to play the interactive game", 50, 150, 0, 0, 14, BLACK, MyFont, false).Render();
-            Text ("Then, Click the Circle buttons to learn about each stage of the surveillance pipeline", 50, 200, 0, 0, 14, BLACK, MyFont, false).Render();
+            Text("AI AND SURVEILLANCE", 50, 45, 0, 0, 28, BLACK, MyFont, false).Render();
+            Text("Click Mission to learn about the mission of this infographic.\n\nClick the Game button to play the interactive game.\n\nThen, Click the circles below to learn about each stage of the surveillance pipeline.", 50, 125, 0, 0, 18, BLACK, MyFont, false).Render();
             Mission.Render();
+
+            Text ("Press X at any point to quit.", 50, 650, 0, 0, 18, BLACK, MyFont, false).Render();
 
             BioButton.Render();
             CollectionButton.Render();
             StorageButton.Render();
             PredictionsButton.Render();
             Dashboard.Render();
-           Game.Render();
+            PatternRecognition.Render();
+            Game.Render();
             Connector(BioButton, CollectionButton, Side::Right, Side::Left).DrawConnector();
             Connector(CollectionButton, StorageButton, Side::Right, Side::Left).DrawConnector();
             Connector(StorageButton, PredictionsButton, Side::Right, Side::Left).DrawConnector();
             Connector(PredictionsButton, Dashboard, Side::Right, Side::Left).DrawConnector();
+            Connector(Dashboard, PatternRecognition, Side::Right, Side::Left).DrawConnector();
 
             if (Mission.Clicked())
             {
@@ -184,6 +191,10 @@ Color statusColor = SKYBLUE;
             else if (PredictionsButton.Clicked())
             {
                 currPage = Pages::Predictions;
+            }
+            else if (PatternRecognition.Clicked())
+            {
+                currPage = Pages::PatternRecognition;
             }
             else if(Game.Clicked()){
             currPage = Pages::InteractiveGame;
@@ -518,6 +529,69 @@ else if (currPage == Pages::Dashboard)
     {
         currPage = Pages::DASHBOARDVISUALIZE;
     }
+}
+
+else if (currPage == Pages::PatternRecognition) {
+    
+    Back2.Render();
+
+    if (Back2.Clicked()) {
+        currPage = Pages::Main;
+    }
+
+    Text PATTERNINTRO("Patternizr (NYPD Crime Pattern Recognition Engine) Overview",
+        40, 50, 0, 0, 20, BLACK, MyFont, false);
+
+    PATTERNINTRO.Render();
+
+    Text PATTERN_TITLE_1("What is Patternizr?",
+    190, 130, 0, 0, 25, BLACK, MyFont, false);
+
+    PATTERN_TITLE_1.Render();
+
+    Text PATTERN_TEXT_1("Patternizr is a program built by the\nNYPD to help investigators find\ngroups (patterns) of crimes committed\nby the same person within a database.", 
+    110, 175, 400, 200, 19, BLACK, MyFont, false);
+    
+    PATTERN_TEXT_1.Render();
+
+    Text PATTERN_TITLE_2("How does it work?",
+    790, 130, 0, 0, 25, BLACK, MyFont, false);
+
+    PATTERN_TITLE_2.Render();
+
+    Text PATTERN_TEXT_2("Models were trained on ten years of\nmanually identified pattern data.\nThe models compare crimes based on\nlocation, date, category, and\nsuspect descriptions. The program\nranks the results using\nsimiliarity scores.", 
+    690, 175, 400, 200, 19, BLACK, MyFont, false);
+
+    PATTERN_TEXT_2.Render();
+
+    Text PATTERN_TITLE_3("How well does it work?",
+    175, 430, 0, 0, 25, BLACK, MyFont, false);
+
+    PATTERN_TITLE_3.Render();
+
+    Text PATTERN_TEXT_3("Testing on new patterns, Patternizer\naccurately ranked related crimes about\n25-30% of the time. It correctly ranked\none true match in the top ten results 4 out\nof 5 times. It outperforms the previously\nused algorithm, which only checks proximity.", 
+    110, 475, 400, 200, 18, BLACK, MyFont, false);
+
+    PATTERN_TEXT_3.Render();
+
+    Text PATTERN_TITLE_4("Is it fair?",
+    835, 425, 0, 0, 25, BLACK, MyFont, false);
+
+    PATTERN_TITLE_4.Render();
+
+    Text PATTERN_TEXT_4("Info such as race, gender, and precinct\ninfo are ignored in the testing. The program\ndoesn't show any visible bias when it\ncame to race or gender. It is possible that\nbiases still exist from the previous data fed\ninto the program. Either way, the patterns are\nmanually reviewed before being published.", 
+    690, 475, 400, 200, 17, BLACK, MyFont, false);
+
+    PATTERN_TEXT_4.Render();
+
+    Circle CIRCLE_CENTER("", 600, 420, 50, 0, BLUE, MyFont, false);
+    Circle CIRCLE_CENTER_2("", 600, 420, 40, 0, DARKBLUE, MyFont, false);
+
+    CIRCLE_CENTER.Render();
+    CIRCLE_CENTER_2.Render();
+
+    Connector(PATTERN_TEXT_1, PATTERN_TEXT_2, Side::Right, Side::Left).DrawConnector();
+    Connector(PATTERN_TEXT_3, PATTERN_TEXT_4, Side::Right, Side::Left).DrawConnector();
 }
 
 // INDEPENDENT VISUALIZATION PAGE

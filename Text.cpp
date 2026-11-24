@@ -66,6 +66,7 @@ bool Text::Clicked() {
            clickable;
 }
 
+/*
 void Text::MoveX(int start, int moveX, int speed) {
     if (speed == 0 || moveX == 0) {
         currMoving = false;
@@ -106,3 +107,5 @@ void Text::Reset() {
     posY = initY;
     currMoving = false;
 }
+*/
+

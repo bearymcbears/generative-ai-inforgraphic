@@ -15,9 +15,12 @@ public:
 
     void Render(); // render the text box
     bool Clicked(); // detects a single click in the text box
+
+    /*
     void MoveX(int start, int moveX, int speed); // move the text box starting at a given frame, moving a given amount of units, at a given speed
     void MoveY(int start, int moveY, int speed); // same as above but for vertical movement
     void Reset(); // resets the text box to its initial positioning and resets its clock
+    */
 
 private:
     int posX = 0, posY = 0; // current position of the text box
