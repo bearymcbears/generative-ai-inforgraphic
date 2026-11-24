@@ -3,7 +3,7 @@
 
 #include "raylib.h"
 #include <string>
-
+// Interactive circle UI element that displays centered text and can act as a clickable button.
 class Circle {
 public:
     Circle() = default;
