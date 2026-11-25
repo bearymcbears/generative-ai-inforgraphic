@@ -45,7 +45,8 @@ enum class Pages
     DASHBOARDVISUALIZE,
     MISSION,
     InteractiveGame,
-    PlateReader
+    PlateReader,
+    Effects
 };
 
 int main()
@@ -103,6 +104,7 @@ int main()
     Circle StorageButton("Storage of Data", 500, 300, 70, 16, BLUE, MyFont, true);
     Circle PredictionsButton("Predictions", 700, 300, 70, 16, RED, MyFont, true);
     Circle Dashboard("Managing\n Dashboard ", 900, 300, 70, 16, GRAY, MyFont, true);
+    Circle Effects("Effects", 1100, 300, 70, 16, PURPLE, MyFont, true);
     // create the text boxes used in the infographic
     Text Mission("Mission", 1000, 30, 80, 45, 16, BLACK, MyFont, true);
     Text Game("interactive Game ", 1000, 100, 160, 80, 12, BLACK, MyFont, true);
@@ -186,10 +188,12 @@ int main()
             PredictionsButton.Render();
             Dashboard.Render();
             Game.Render();
+            Effects.Render();
             Connector(BioButton, CollectionButton, Side::Right, Side::Left).DrawConnector();
             Connector(CollectionButton, StorageButton, Side::Right, Side::Left).DrawConnector();
             Connector(StorageButton, PredictionsButton, Side::Right, Side::Left).DrawConnector();
             Connector(PredictionsButton, Dashboard, Side::Right, Side::Left).DrawConnector();
+            Connector(Dashboard, Effects, Side::Right, Side::Left).DrawConnector();
 
             if (Mission.Clicked())
             {
@@ -324,7 +328,7 @@ int main()
             Text officer("Officer is notified\nand responds", 40, 414, 160, 40, fs, BLACK, interFont, false);
             Text shared("Shared databases and dashboards like the NYPD Domain Awareness System", 40, 500, 660, 40, fs, BLACK, interFont, false);
 
-            Text readPlate("Read Plate Example", 925, 100, 50, 50, 16, BLACK, defaultFont, true);
+            Text readPlate("Plate Reader", 925, 100, 120, 50, 16, BLACK, defaultFont, true);
 
             Connector(sensor, software, Side::Bottom, Side::Top).DrawConnector();
             Connector(tag, check, Side::Bottom, Side::Top).DrawConnector();
@@ -789,7 +793,7 @@ int main()
             {
                 currPage = Pages::Main;
             }
-        }
+        } 
 
         EndDrawing();
     }
