@@ -139,7 +139,7 @@ int main()
 
     // used https://www.raylib.com/examples.html  raylib examples to learn how to use the library and implement the interactive game
     /* used Gemini To create the positions of the spots on the Map when prompt
-     How Can I create positions for the spots on the map
+     How Can I create positions for the spots on the map (line 144 to 152)
     Accessed November 2026*/
     struct ManhattanSpot
     {
