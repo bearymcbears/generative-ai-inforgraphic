@@ -140,10 +140,10 @@ int main()
     Texture2D manhattanMap = LoadTexture("assets/images/manhattanmap.jpg");
 
     // used https://www.raylib.com/examples.html  raylib examples to learn how to use the library and implement the interactive game
-    /* used Gemini To create the positions of the spots on the Map when prompt
-     How Can I create positions for the spots on the map (line 146 to 154) and 
+    /* used Gemini To detect  the exact positions of the neighborhoods in manhattan  on the Map when prompt
+     How Can I detect the exact positions for those spots in the map  (line 159 to 166) and 
      used https://www.geeksforgeeks.org/cpp/structure-vs-class-in-cpp/#google_vignette
-     which helped understand what is a struct and difference between a struct and a Class in c++
+     which helped understand what is a struct and difference between a struct and a Class in c++ and how to utilize it
     Accessed November 2026*/
     struct ManhattanSpot
     {
