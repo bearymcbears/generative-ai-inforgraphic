@@ -12,6 +12,24 @@
 
 using namespace std;
 
+string formatPlateResponse(string raw)
+{
+    string resultMessage = "";
+    int lineLength = 0;
+    for (int i = 0; i < raw.length(); i++)
+    {
+        char c = raw[i];
+        resultMessage += c;
+        lineLength++;
+        if (c == ',' && lineLength > 60)
+        {
+            resultMessage += '\n'; // start a new line after each field
+            lineLength = 0;
+        }
+    }
+    return resultMessage;
+}
+
 // enum learned from https://www.w3schools.com/cpp/cpp_enum.asp
 enum class Pages
 {
@@ -67,6 +85,12 @@ int main()
     Texture2D plateImage = LoadTexture("assets/images/test car image.png");
     Texture2D predictionstex = LoadTexture("assets/images/policepredictions.jpg.jpg");
     Texture2D DAS = LoadTexture("assets/images/DAS_visualization.jpg");
+    imagePath = "assets/images/test car image.png";
+    Image defaultImg = LoadImage(imagePath.c_str());
+    ImageResize(&defaultImg, 400, 400);
+    uploadedImage = LoadTextureFromImage(defaultImg);
+    imageUploaded = true;
+    UnloadImage(defaultImg);
 
     bool hasPhoto = (photo.id != 0);
     // Load fonts for the text used in the infographic
@@ -89,6 +113,7 @@ int main()
     Text goToCollectionButton("BACK", 925, 30, 80, 45, 16, BLACK, MyFont, true);
     Text Explaination("EXPLAIN", 925, 90, 80, 45, 16, BLACK, MyFont, true);
     Text NameButton("Name: joseph rivera\nAge: 27\nSkin Tone: Medium\nOrigin: New York", 50, 100, 250, 250, 20, BLACK, defaultFont, false);
+    Text analyzeButton("Analyze", 925, 90, 80, 45, 16, BLACK, MyFont, true);
     Text Back("BACK", 925, 30, 80, 45, 16, BLACK, MyFont, true);
     // create circles used to visualize the storage of data in the infographic
     Circle circle1("DATA", centerx - spacing / 2, (centery - spacing / 2) - 90, 30, 20, YELLOW, MyFont, false);
@@ -350,9 +375,8 @@ int main()
             int xPos = screenWidth / 2 - 500;
             int yPos = screenHeight / 2 - 200;
             Rectangle dropZone = {(float)xPos, (float)yPos, 400.0f, 400.0f};
-            Text imageToAnalyze("Image to Analyze", xPos, yPos - 50, 400, 50, 20, BLACK, interFont, false, WHITE);
+            Text imageToAnalyze("Image to Analyze (Drop Image Here)", xPos, yPos - 50, 400, 50, 20, BLACK, interFont, false, WHITE);
             Text uploadImageArea = Text("Drop Image Here", xPos, yPos, 400, 400, 20, WHITE, interFont, false, LIGHTGRAY);
-            Text plateResult(resultMessage.c_str(), xPos + 500, yPos - 50, 500, 600, 14, BLACK, interFont, false, WHITE);
 
             if (IsFileDropped())
             {
@@ -362,43 +386,33 @@ int main()
                 if (CheckCollisionPointRec(mouse, dropZone) && dropped.count > 0)
                 {
                     string path = dropped.paths[0];
-                    if (CheckCollisionPointRec(mouse, dropZone) && dropped.count > 0)
+                    if (IsFileExtension(path.c_str(), ".png;.jpg;.jpeg"))
                     {
-                        string path = dropped.paths[0];
-                        if (IsFileExtension(path.c_str(), ".png;.jpg;.jpeg"))
-                        {
-                            imagePath = path;
-                            imageUploaded = true;
+                        imagePath = path;
+                        imageUploaded = true;
 
-                            if (uploadedImage.id != 0)
-                                UnloadTexture(uploadedImage);
+                        if (uploadedImage.id != 0)
+                            UnloadTexture(uploadedImage);
 
-                            Image img = LoadImage(imagePath.c_str());
-                            ImageResize(&img, 400, 400);
-                            uploadedImage = LoadTextureFromImage(img);
-                            UnloadImage(img);
+                        Image img = LoadImage(imagePath.c_str());
+                        ImageResize(&img, 400, 400);
+                        uploadedImage = LoadTextureFromImage(img);
+                        UnloadImage(img);
 
-                            string raw = PlateRecognizer::ReadPlate(imagePath);
-                            resultMessage = "";
-                            int lineLength = 0;
-                            for (int i = 0; i < raw.length(); i++) {
-                                char c = raw[i];
-                                resultMessage += c;
-                                lineLength++;
-                                if (c == ',' && lineLength > 60) {
-                                    resultMessage += '\n';   // start a new line after each field
-                                    lineLength = 0;
-                                }
-                            }
-                        }
-                        else
-                        {
-                            resultMessage = "Invalid file type. Please drop a PNG or JPG image.";
-                        }
+                        resultMessage = formatPlateResponse(PlateRecognizer::ReadPlate(imagePath));
+                    }
+                    else
+                    {
+                        resultMessage = "Invalid file type. Please drop a PNG or JPG image.";
                     }
                 }
 
-                UnloadDroppedFiles(dropped);
+                UnloadDroppedFiles(dropped); 
+            } 
+
+            if (analyzeButton.Clicked() && imagePath != "")
+            {
+                resultMessage = formatPlateResponse(PlateRecognizer::ReadPlate(imagePath));
             }
 
             if (uploadedImage.id != 0)
@@ -409,9 +423,13 @@ int main()
             {
                 uploadImageArea.Render();
             }
+
+            Text plateResult(resultMessage.c_str(), xPos + 500, yPos - 50, 500, 600, 14, BLACK, interFont, false, WHITE);
+
             goToCollectionButton.Render();
             imageToAnalyze.Render();
             plateResult.Render();
+            analyzeButton.Render();
 
             if (goToCollectionButton.Clicked())
             {
