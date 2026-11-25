@@ -11,7 +11,8 @@ Circle::Circle(const char *text, int x, int y, int r, int fontsize, Color color,
       text(text),
       clickable(clickable),
       Moving(false) {}
-// Draws the circle and centers the label text inside it (using the default font if none is set).void Circle::Render() {
+// Draws the circle and centers the label text inside it (using the default font if none is set)
+void Circle::Render() {
     DrawCircle(posX, posY, radius, color);
 
     if (text == nullptr || text[0] == '\0') return;

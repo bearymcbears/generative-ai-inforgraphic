@@ -352,7 +352,7 @@ int main()
             Rectangle dropZone = {(float)xPos, (float)yPos, 400.0f, 400.0f};
             Text imageToAnalyze("Image to Analyze", xPos, yPos - 50, 400, 50, 20, BLACK, interFont, false, WHITE);
             Text uploadImageArea = Text("Drop Image Here", xPos, yPos, 400, 400, 20, WHITE, interFont, false, LIGHTGRAY);
-            Text plateResult(resultMessage.c_str(), xPos + 500, yPos - 50, 400, 50, 20, BLACK, interFont, false, WHITE);
+            Text plateResult(resultMessage.c_str(), xPos + 500, yPos - 50, 500, 600, 14, BLACK, interFont, false, WHITE);
 
             if (IsFileDropped())
             {
@@ -378,7 +378,18 @@ int main()
                             uploadedImage = LoadTextureFromImage(img);
                             UnloadImage(img);
 
-                            resultMessage = "Plate Result: " + PlateRecognizer::ReadPlate(imagePath.c_str());
+                            string raw = PlateRecognizer::ReadPlate(imagePath);
+                            resultMessage = "";
+                            int lineLength = 0;
+                            for (int i = 0; i < raw.length(); i++) {
+                                char c = raw[i];
+                                resultMessage += c;
+                                lineLength++;
+                                if (c == ',' && lineLength > 60) {
+                                    resultMessage += '\n';   // start a new line after each field
+                                    lineLength = 0;
+                                }
+                            }
                         }
                         else
                         {
@@ -401,8 +412,6 @@ int main()
             goToCollectionButton.Render();
             imageToAnalyze.Render();
             plateResult.Render();
-
-            // string text = PlateRecognizer::ReadPlate("assets/images/test car image.png");
 
             if (goToCollectionButton.Clicked())
             {
