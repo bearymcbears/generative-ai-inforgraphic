@@ -141,7 +141,9 @@ int main()
 
     // used https://www.raylib.com/examples.html  raylib examples to learn how to use the library and implement the interactive game
     /* used Gemini To create the positions of the spots on the Map when prompt
-     How Can I create positions for the spots on the map
+     How Can I create positions for the spots on the map (line 146 to 154) and 
+     used https://www.geeksforgeeks.org/cpp/structure-vs-class-in-cpp/#google_vignette
+     which helped understand what is a struct and difference between a struct and a Class in c++
     Accessed November 2026*/
     struct ManhattanSpot
     {
