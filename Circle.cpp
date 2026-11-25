@@ -15,6 +15,12 @@ Circle::Circle(const char *text, int x, int y, int r, int fontsize, Color color,
 void Circle::Render() {
     DrawCircle(posX, posY, radius, color);
 
+    if (CheckCollisionPointCircle(GetMousePosition(), {static_cast<float>(posX), static_cast<float>(posY)}, radius) && clickable) {
+        DrawCircle(posX, posY, radius, ColorBrightness(color, -0.1f));
+    } else {
+        DrawCircle(posX, posY, radius, color);
+    }
+
     if (text == nullptr || text[0] == '\0') return;
 
     Font activeFont = (font.baseSize > 0) ? font : GetFontDefault();

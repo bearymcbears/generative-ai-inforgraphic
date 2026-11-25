@@ -42,6 +42,7 @@ enum class Pages
     Predictions,
     VisualizePredictions,
     Dashboard,
+    PatternRecognition,
     DASHBOARDVISUALIZE,
     MISSION,
     InteractiveGame,
@@ -98,16 +99,17 @@ int main()
     Font defaultFont = GetFontDefault();
     Font interFont = LoadFont("assets/fonts/Inter-VariableFont_opsz,wght.ttf");
     Font MyFont = LoadFont("assets/fonts/Lato-Regular.ttf");
-    // Create the buttons and text boxes used in the infographic
-    Circle BioButton("Biometrics", 100, 300, 70, 16, YELLOW, MyFont, true);
-    Circle CollectionButton("Collection of Data", 300, 300, 70, 16, GREEN, MyFont, true);
-    Circle StorageButton("Storage of Data", 500, 300, 70, 16, BLUE, MyFont, true);
-    Circle PredictionsButton("Predictions", 700, 300, 70, 16, RED, MyFont, true);
-    Circle Dashboard("Managing\n Dashboard ", 900, 300, 70, 16, GRAY, MyFont, true);
-    Circle Effects("Effects", 1100, 300, 70, 16, PURPLE, MyFont, true);
-    // create the text boxes used in the infographic
-    Text Mission("Mission", 1000, 30, 80, 45, 16, BLACK, MyFont, true);
-    Text Game("interactive Game ", 1000, 100, 160, 80, 12, BLACK, MyFont, true);
+//Create the buttons and text boxes used in the infographic
+    Circle CollectionButton("Collection of Data", 90, 350, 65, 16, GREEN, MyFont, true);
+    Circle StorageButton("Storage of Data", 260, 350, 65, 16, BLUE, MyFont, true);
+    Circle BioButton("Biometrics", 430, 350, 65, 16, YELLOW, MyFont, true);
+    Circle PatternRecognition("    Pattern\nRecognition", 600, 350, 65, 16, PURPLE, MyFont, true);
+    Circle PredictionsButton("Predictions", 770, 350, 65, 16, RED, MyFont, true);
+    Circle Dashboard(" Managing\nDashboard ", 940, 350, 65, 16, GRAY, MyFont, true);
+    Circle Effects("Effects", 1110, 350, 65, 16, ORANGE, MyFont, true);
+//create the text boxes used in the infographic
+    Text Mission("Mission", 1080, 30, 80, 45, 16, BLACK, MyFont, true);
+    Text Game("Interactive Game",1000,100,160,80,16,BLACK,MyFont,true);
     Text VisualizePredictionsButton("Visualize", 1050, 30, 80, 45, 16, BLACK, MyFont, true);
     Text goToMainButton("BACK", 925, 30, 80, 45, 16, BLACK, MyFont, true);
     Text unmaskButton("Unmask", 925, 90, 80, 45, 16, BLACK, MyFont, true);
@@ -117,11 +119,12 @@ int main()
     Text NameButton("Name: joseph rivera\nAge: 27\nSkin Tone: Medium\nOrigin: New York", 50, 100, 250, 250, 20, BLACK, defaultFont, false);
     Text analyzeButton("Analyze", 925, 90, 80, 45, 16, BLACK, MyFont, true);
     Text Back("BACK", 925, 30, 80, 45, 16, BLACK, MyFont, true);
-    // create circles used to visualize the storage of data in the infographic
-    Circle circle1("DATA", centerx - spacing / 2, (centery - spacing / 2) - 90, 30, 20, YELLOW, MyFont, false);
-    Circle circle2("DATA", centerx + spacing / 2, (centery - spacing / 2) - 90, 30, 20, GREEN, MyFont, false);
-    Circle circle3("DATA", centerx - spacing / 2, (centery + spacing / 2) - 90, 30, 20, BLUE, MyFont, false);
-    Circle circle4("DATA", centerx + spacing / 2, (centery + spacing / 2) - 90, 30, 20, RED, MyFont, false);
+    Text Back2("BACK", 1050, 40, 80, 45, 16, BLACK, MyFont, true);
+//create circles used to visualize the storage of data in the infographic
+    Circle circle1("DATA", centerx - spacing / 2, (centery - spacing / 2) - 90, 30, 20, YELLOW, MyFont,false);
+    Circle circle2("DATA", centerx + spacing / 2, (centery - spacing / 2) - 90, 30, 20, GREEN, MyFont,false);
+    Circle circle3("DATA", centerx - spacing / 2, (centery + spacing / 2) - 90, 30, 20, BLUE, MyFont,false);
+    Circle circle4("DATA", centerx + spacing / 2, (centery + spacing / 2) - 90, 30, 20, RED, MyFont,false);
 
     Text MIDDLEREC("Adjustable Blocks of Data", midX, midY, midW, midH, 16, BLACK, MyFont, false);
     int boxW = 150;
@@ -167,7 +170,8 @@ int main()
     const char *statusBanner = "Move cursor over Manhattan neighborhoods to spot areas (RED = flagged, BLUE = safe)";
     Color statusColor = SKYBLUE;
 
-    while (!WindowShouldClose())
+
+ while (!WindowShouldClose() && !IsKeyPressed(KEY_X))
     {
 
         BeginDrawing();
@@ -175,23 +179,26 @@ int main()
 
         if (currPage == Pages::Main)
         {
-
-            ClearBackground(WHITE);
-            Text("AI AND SURVEILLANCE", 50, 40, 0, 0, 28, BLACK, MyFont, false).Render();
-            Text("Click Mission to learn about the mission of this infographic\n Click the Game button to play the interactive game", 50, 150, 0, 0, 14, BLACK, MyFont, false).Render();
-            Text("Then, Click the Circle buttons to learn about each stage of the surveillance pipeline", 50, 200, 0, 0, 14, BLACK, MyFont, false).Render();
+            
+          ClearBackground(WHITE);
+            Text("AI AND SURVEILLANCE", 50, 45, 0, 0, 28, BLACK, MyFont, false).Render();
+            Text("Click Mission to learn about the mission of this infographic.\n\nClick the Game button to play the interactive game.\n\nThen, Click the circles below to learn about each stage of the surveillance pipeline.", 50, 125, 0, 0, 18, BLACK, MyFont, false).Render();
             Mission.Render();
+
+            Text ("Press X at any point to quit.", 50, 650, 0, 0, 18, BLACK, MyFont, false).Render();
 
             BioButton.Render();
             CollectionButton.Render();
             StorageButton.Render();
             PredictionsButton.Render();
             Dashboard.Render();
+            PatternRecognition.Render();
             Game.Render();
             Effects.Render();
-            Connector(BioButton, CollectionButton, Side::Right, Side::Left).DrawConnector();
             Connector(CollectionButton, StorageButton, Side::Right, Side::Left).DrawConnector();
-            Connector(StorageButton, PredictionsButton, Side::Right, Side::Left).DrawConnector();
+            Connector(StorageButton, BioButton, Side::Right, Side::Left).DrawConnector();
+            Connector(BioButton, PatternRecognition, Side::Right, Side::Left).DrawConnector();
+            Connector(PatternRecognition, PredictionsButton, Side::Right, Side::Left).DrawConnector();
             Connector(PredictionsButton, Dashboard, Side::Right, Side::Left).DrawConnector();
             Connector(Dashboard, Effects, Side::Right, Side::Left).DrawConnector();
 
@@ -215,9 +222,14 @@ int main()
             {
                 currPage = Pages::Predictions;
             }
-            else if (Game.Clicked())
+            else if (PatternRecognition.Clicked())
             {
+                currPage = Pages::PatternRecognition;
+            }
+            else if(Game.Clicked()){
                 currPage = Pages::InteractiveGame;
+            } else if (Effects.Clicked()){
+                currPage = Pages::Effects;
             }
         }
         else if (currPage == Pages::MISSION)
@@ -313,20 +325,20 @@ int main()
 
             const int fs = 14;
 
-            Text sensor("Sensor records automatically:\ncamera, plate reader, microphone, phone GPS", 200, 10, 340, 50, fs, BLACK, interFont, false);
-            Text software("Software turns the raw recording into data", 40, 94, 660, 34, fs, BLACK, MyFont, false);
+            Text sensor("Sensor records automatically:\ncamera, plate reader, microphone, phone GPS", 240, 20, 440, 60, fs, BLACK, interFont, false);
+            Text software("Software turns the raw recording into data", 40, 120, 840, 44, fs, BLACK, MyFont, false);
 
-            Text plate("Plate photo: find the\nplate, then read its\ncharacters as text", 40, 162, 200, 56, fs, BLACK, MyFont, false);
-            Text sound("Sound: locate it by comparing\nwhen each mic heard it, then\nclassify as gunshot or not", 255, 162, 230, 56, fs, BLACK, interFont, false);
-            Text video("Video: find faces,\ncars, or movement", 500, 162, 200, 56, fs, BLACK, interFont, false);
+            Text plate("Plate photo: find the\nplate, then read its\ncharacters as text", 40, 200, 260, 80, fs, BLACK, MyFont, false);
+            Text sound("Sound: locate it by comparing\nwhen each mic heard it, then\nclassify as gunshot or not", 330, 200, 260, 80, fs, BLACK, interFont, false);
+            Text video("Video: find faces,\ncars, or movement", 620, 200, 260, 80, fs, BLACK, interFont, false);
 
-            Text tag("Tag it with time, place, and camera ID", 40, 252, 660, 34, fs, BLACK, interFont, false);
-            Text check("Check against a watch\nlist or gunshot model", 270, 340, 200, 40, fs, BLACK, interFont, false);
+            Text tag("Tag it with time, place, and camera ID", 40, 320, 840, 44, fs, BLACK, interFont, false);
+            Text check("Check against a watch\nlist or gunshot model", 330, 420, 260, 56, fs, BLACK, interFont, false);
 
-            Text alert("Alert, often reviewed\nby a person first", 40, 340, 160, 40, fs, BLACK, interFont, false);
-            Text saved("Saved anyway, for\ndays or longer", 540, 340, 160, 40, fs, BLACK, interFont, false);
-            Text officer("Officer is notified\nand responds", 40, 414, 160, 40, fs, BLACK, interFont, false);
-            Text shared("Shared databases and dashboards like the NYPD Domain Awareness System", 40, 500, 660, 40, fs, BLACK, interFont, false);
+            Text alert("Alert, often reviewed\nby a person first", 40, 420, 220, 56, fs, BLACK, interFont, false);
+            Text saved("Saved anyway, for\ndays or longer", 660, 420, 220, 56, fs, BLACK, interFont, false);
+            Text officer("Officer is notified\nand responds", 40, 520, 220, 56, fs, BLACK, interFont, false);
+            Text shared("Shared databases and dashboards like the NYPD Domain Awareness System", 40, 640, 840, 56, fs, BLACK, interFont, false);
 
             Text readPlate("Plate Reader", 925, 100, 120, 50, 16, BLACK, defaultFont, true);
 
@@ -336,14 +348,17 @@ int main()
             Connector(check, saved, Side::Right, Side::Left).DrawConnector();
             Connector(alert, officer, Side::Bottom, Side::Top).DrawConnector();
 
-            DrawLineEx({140, 128}, {140, 162}, 3.0f, BLACK);
-            DrawLineEx({370, 128}, {370, 162}, 3.0f, BLACK);
-            DrawLineEx({600, 128}, {600, 162}, 3.0f, BLACK);
-            DrawLineEx({140, 218}, {140, 252}, 3.0f, BLACK);
-            DrawLineEx({370, 218}, {370, 252}, 3.0f, BLACK);
-            DrawLineEx({600, 218}, {600, 252}, 3.0f, BLACK);
-            DrawLineEx({120, 454}, {120, 500}, 3.0f, BLACK);
-            DrawLineEx({620, 380}, {620, 500}, 3.0f, BLACK);
+            // software -> the three columns
+            DrawLineEx({170, 164}, {170, 200}, 3.0f, BLACK);
+            DrawLineEx({460, 164}, {460, 200}, 3.0f, BLACK);
+            DrawLineEx({750, 164}, {750, 200}, 3.0f, BLACK);
+            // the three columns -> tag
+            DrawLineEx({170, 280}, {170, 320}, 3.0f, BLACK);
+            DrawLineEx({460, 280}, {460, 320}, 3.0f, BLACK);
+            DrawLineEx({750, 280}, {750, 320}, 3.0f, BLACK);
+            // officer -> shared, and saved -> shared
+            DrawLineEx({150, 576}, {150, 640}, 3.0f, BLACK);
+            DrawLineEx({770, 476}, {770, 640}, 3.0f, BLACK);
 
             sensor.Render();
             software.Render();
@@ -358,8 +373,8 @@ int main()
             shared.Render();
             readPlate.Render();
 
-            Text("match", 219, 342, 0, 0, 12, DARKGRAY, interFont, false).Render();
-            Text("no match", 480, 342, 0, 0, 12, DARKGRAY, interFont, false).Render();
+            Text("match", 270, 424, 0, 0, 14, DARKGRAY, interFont, false).Render();
+            Text("no match", 596, 424, 0, 0, 14, DARKGRAY, interFont, false).Render();
 
             goToMainButton.Render();
             if (goToMainButton.Clicked())
@@ -626,11 +641,74 @@ int main()
 
             VisualizePredictionsButton.Render();
 
-            if (VisualizePredictionsButton.Clicked())
-            {
-                currPage = Pages::DASHBOARDVISUALIZE;
-            }
-        }
+    if (VisualizePredictionsButton.Clicked())
+    {
+        currPage = Pages::DASHBOARDVISUALIZE;
+    }
+}
+
+else if (currPage == Pages::PatternRecognition) {
+    
+    Back2.Render();
+
+    if (Back2.Clicked()) {
+        currPage = Pages::Main;
+    }
+
+    Text PATTERNINTRO("Patternizr (NYPD Crime Pattern Recognition Engine) Overview",
+        40, 50, 0, 0, 20, BLACK, MyFont, false);
+
+    PATTERNINTRO.Render();
+
+    Text PATTERN_TITLE_1("What is Patternizr?",
+    190, 130, 0, 0, 25, BLACK, MyFont, false);
+
+    PATTERN_TITLE_1.Render();
+
+    Text PATTERN_TEXT_1("Patternizr is a program built by the\nNYPD to help investigators find\ngroups (patterns) of crimes committed\nby the same person within a database.", 
+    110, 175, 400, 200, 19, BLACK, MyFont, false);
+    
+    PATTERN_TEXT_1.Render();
+
+    Text PATTERN_TITLE_2("How does it work?",
+    790, 130, 0, 0, 25, BLACK, MyFont, false);
+
+    PATTERN_TITLE_2.Render();
+
+    Text PATTERN_TEXT_2("Models were trained on ten years of\nmanually identified pattern data.\nThe models compare crimes based on\nlocation, date, category, and\nsuspect descriptions. The program\nranks the results using\nsimiliarity scores.", 
+    690, 175, 400, 200, 19, BLACK, MyFont, false);
+
+    PATTERN_TEXT_2.Render();
+
+    Text PATTERN_TITLE_3("How well does it work?",
+    175, 430, 0, 0, 25, BLACK, MyFont, false);
+
+    PATTERN_TITLE_3.Render();
+
+    Text PATTERN_TEXT_3("Testing on new patterns, Patternizer\naccurately ranked related crimes about\n25-30% of the time. It correctly ranked\none true match in the top ten results 4 out\nof 5 times. It outperforms the previously\nused algorithm, which only checks proximity.", 
+    110, 475, 400, 200, 18, BLACK, MyFont, false);
+
+    PATTERN_TEXT_3.Render();
+
+    Text PATTERN_TITLE_4("Is it fair?",
+    835, 425, 0, 0, 25, BLACK, MyFont, false);
+
+    PATTERN_TITLE_4.Render();
+
+    Text PATTERN_TEXT_4("Info such as race, gender, and precinct\ninfo are ignored in the testing. The program\ndoesn't show any visible bias when it\ncame to race or gender. It is possible that\nbiases still exist from the previous data fed\ninto the program. Either way, the patterns are\nmanually reviewed before being published.", 
+    690, 475, 400, 200, 17, BLACK, MyFont, false);
+
+    PATTERN_TEXT_4.Render();
+
+    Circle CIRCLE_CENTER("", 600, 420, 50, 0, BLUE, MyFont, false);
+    Circle CIRCLE_CENTER_2("", 600, 420, 40, 0, DARKBLUE, MyFont, false);
+
+    CIRCLE_CENTER.Render();
+    CIRCLE_CENTER_2.Render();
+
+    Connector(PATTERN_TEXT_1, PATTERN_TEXT_2, Side::Right, Side::Left).DrawConnector();
+    Connector(PATTERN_TEXT_3, PATTERN_TEXT_4, Side::Right, Side::Left).DrawConnector();
+}
 
         else if (currPage == Pages::DASHBOARDVISUALIZE)
         {
@@ -793,7 +871,93 @@ int main()
             {
                 currPage = Pages::Main;
             }
-        } 
+        } else if (currPage == Pages::Effects){
+
+                        // ---------- top row ----------
+
+            // card 1: face matching
+            DrawRectangle(50, 120, 255, 290, Fade(RED, 0.12f));
+            DrawRectangleLinesEx({50, 120, 255, 290}, 2.0f, RED);
+            Text("10-100x", 50, 120, 255, 70, 40, WHITE, MyFont, false, RED).Render();
+            Text("Face matching is biased", 50, 198, 255, 40, 18, BLACK, MyFont, false, Fade(RED, 0.12f)).Render();
+            Text("NIST tested 189 algorithms\non 8.49 million people.\nFalse matches varied 10 to\n100+ times across\ndemographic groups. (2019)",
+                 50, 245, 255, 155, 15, DARKGRAY, MyFont, false, Fade(RED, 0.12f)).Render();
+
+            // card 2: accuracy gap
+            DrawRectangle(331, 120, 255, 290, Fade(RED, 0.12f));
+            DrawRectangleLinesEx({331, 120, 255, 290}, 2.0f, RED);
+            Text("34.7%", 331, 120, 255, 70, 40, WHITE, MyFont, false, RED).Render();
+            Text("The accuracy gap", 331, 198, 255, 40, 18, BLACK, MyFont, false, Fade(RED, 0.12f)).Render();
+            Text("Gender Shades: error rates\nof 20.8-34.7% for darker-\nskinned women vs. at most\n0.8% for lighter-skinned men.\n(2018, gender classification)",
+                 331, 245, 255, 155, 15, DARKGRAY, MyFont, false, Fade(RED, 0.12f)).Render();
+
+            // card 3: predictive policing
+            DrawRectangle(612, 120, 255, 290, Fade(ORANGE, 0.12f));
+            DrawRectangleLinesEx({612, 120, 255, 290}, 2.0f, ORANGE);
+            Text("2x", 612, 120, 255, 70, 40, WHITE, MyFont, false, ORANGE).Render();
+            Text("Bias feeds itself", 612, 198, 255, 40, 18, BLACK, MyFont, false, Fade(ORANGE, 0.12f)).Render();
+            Text("A PredPol-style model trained\non Oakland drug arrests would\ntarget Black residents ~2x as\noften as white residents, though\ndrug use was far more even.",
+                 612, 245, 255, 155, 15, DARKGRAY, MyFont, false, Fade(ORANGE, 0.12f)).Render();
+
+            // card 4: Chicago risk list
+            DrawRectangle(893, 120, 255, 290, Fade(ORANGE, 0.12f));
+            DrawRectangleLinesEx({893, 120, 255, 290}, 2.0f, ORANGE);
+            Text("2.88x", 893, 120, 255, 70, 40, WHITE, MyFont, false, ORANGE).Render();
+            Text("Chicago's risk list failed", 893, 198, 255, 40, 18, BLACK, MyFont, false, Fade(ORANGE, 0.12f)).Render();
+            Text("The Strategic Subject List\ndidn't reduce shooting victims,\nbut people on it were 2.88x\nmore likely to be arrested.\nShut down Nov 1, 2019.",
+                 893, 245, 255, 155, 15, DARKGRAY, MyFont, false, Fade(ORANGE, 0.12f)).Render();
+
+            // ---------- bottom row ----------
+
+            // card 5: wrongful arrest
+            DrawRectangle(50, 430, 255, 290, Fade(PURPLE, 0.12f));
+            DrawRectangleLinesEx({50, 430, 255, 290}, 2.0f, PURPLE);
+            Text("2024", 50, 430, 255, 70, 40, WHITE, MyFont, false, PURPLE).Render();
+            Text("Wrongful arrest, new rules", 50, 508, 255, 40, 18, BLACK, MyFont, false, Fade(PURPLE, 0.12f)).Render();
+            Text("Detroit's June 28, 2024\nsettlement with Robert\nWilliams bars arrests based\nonly on a face-recognition\nmatch plus a lineup.",
+                 50, 555, 255, 155, 15, DARKGRAY, MyFont, false, Fade(PURPLE, 0.12f)).Render();
+
+            // card 6: chilling effect
+            DrawRectangle(331, 430, 255, 290, Fade(PURPLE, 0.12f));
+            DrawRectangleLinesEx({331, 430, 255, 290}, 2.0f, PURPLE);
+            Text("-19.5%", 331, 430, 255, 70, 40, WHITE, MyFont, false, PURPLE).Render();
+            Text("Chilling effect", 331, 508, 255, 40, 18, BLACK, MyFont, false, Fade(PURPLE, 0.12f)).Render();
+            Text("After the 2013 NSA leaks,\nviews of 48 terrorism-related\nWikipedia articles fell\nabout 19.5%. (Penney, 2016)",
+                 331, 555, 255, 155, 15, DARKGRAY, MyFont, false, Fade(PURPLE, 0.12f)).Render();
+
+            // card 7: cameras
+            DrawRectangle(612, 430, 255, 290, Fade(DARKBLUE, 0.12f));
+            DrawRectangleLinesEx({612, 430, 255, 290}, 2.0f, DARKBLUE);
+            Text("13%", 612, 430, 255, 70, 40, WHITE, MyFont, false, DARKBLUE).Render();
+            Text("Cameras help, a little", 612, 508, 255, 40, 18, BLACK, MyFont, false, Fade(DARKBLUE, 0.12f)).Render();
+            Text("CCTV was linked to ~13% less\ncrime overall, ~37% less in\nparking lots. The 24 U.S.\nstudies weren't significant\nas a group. (2019)",
+                 612, 555, 255, 155, 15, DARKGRAY, MyFont, false, Fade(DARKBLUE, 0.12f)).Render();
+
+            // card 8: ShotSpotter
+            DrawRectangle(893, 430, 255, 290, Fade(DARKBLUE, 0.12f));
+            DrawRectangleLinesEx({893, 430, 255, 290}, 2.0f, DARKBLUE);
+            Text("9.1%", 893, 430, 255, 70, 40, WHITE, MyFont, false, DARKBLUE).Render();
+            Text("ShotSpotter finds little", 893, 508, 255, 40, 18, BLACK, MyFont, false, Fade(DARKBLUE, 0.12f)).Render();
+            Text("Only 9.1% of 50,176 alerts\nin Chicago turned up\nevidence of a gun crime.\n(Chicago Inspector General,\nAug. 2021)",
+                 893, 555, 255, 155, 15, DARKGRAY, MyFont, false, Fade(DARKBLUE, 0.12f)).Render();
+
+            Text("EFFECTS OF AI SURVEILLANCE", 50, 35, 0, 0, 28, BLACK, MyFont, false).Render();
+
+            // legend: what each card color means
+            DrawRectangle(50, 82, 16, 16, RED);
+            Text("Biased tools", 74, 82, 0, 0, 16, BLACK, MyFont, false).Render();
+            DrawRectangle(250, 82, 16, 16, ORANGE);
+            Text("Feedback loops", 274, 82, 0, 0, 16, BLACK, MyFont, false).Render();
+            DrawRectangle(470, 82, 16, 16, PURPLE);
+            Text("Harm to people", 494, 82, 0, 0, 16, BLACK, MyFont, false).Render();
+            DrawRectangle(690, 82, 16, 16, DARKBLUE);
+            Text("Does it work?", 714, 82, 0, 0, 16, BLACK, MyFont, false).Render();
+            
+            goToMainButton.Render();
+            if (goToMainButton.Clicked()){
+                currPage = Pages::Main;
+            }
+        }
 
         EndDrawing();
     }

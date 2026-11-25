@@ -10,6 +10,7 @@ class Connector {
 public:
     Connector(const Text& startText, const Text& endText, Side startSide, Side endSide);
     Connector(const Circle& startCircle, const Circle& endCircle, Side startSide, Side endSide);
+    Connector(const Circle& startCircle, const Circle& endCircle);
 
     void DrawConnector();
 
