@@ -6,7 +6,7 @@ class Text {
 
 public:
     Text() = default;
-    Text(char *text, int posX, int posY, int w, int h, int fontSize, Color color, Font font, bool clickable);
+    Text(const char *text, int posX, int posY, int w, int h, int fontSize, Color color, Font font, bool clickable, Color boxColor = {137, 207, 240, 255});
 
     int GetPosX() const { return posX; }
     int GetPosY() const { return posY; }
@@ -29,9 +29,9 @@ private:
     int fontSize = 12;
     Font font{};
     Color color{}; // color of the text
-    char* text = nullptr; // the displayed text
+    const char* text = nullptr; // the displayed text
     Rectangle buttonShape{}; // rectangle object that determines the shape of the text box
-    Color boxColor = {137, 207, 240, 255}; // color of the text box
+    Color boxColor; // color of the text box
     int clock = 0; // internal clock used to coordinate movement
     bool clickable = false; // boolean that determines if a text box is clickable
     bool currMoving = false; // boolean that determines if a text box is currently moving, moving boxes are not clickable

@@ -1,23 +1,24 @@
+#include <curl/curl.h>
 #include "PlateRecognizer.h"
 #include <iostream>
 #include "dotenvparse.h"
 
 using namespace std;
 
-
+void PlateRecognizer::Init()     { curl_global_init(CURL_GLOBAL_DEFAULT); }
+void PlateRecognizer::Shutdown() { curl_global_cleanup(); }
 // repliactes this curl command: curl -X POST -F "upload=@/tmp/car.jpg" 
 // -H "Authorization: Token YOUR_API_TOKEN" 
 // https://api.platerecognizer.com/v1/plate-reader/
 // Example curl command from https://api.platerecognizer.com/v1/api-reference/#tag/Snapshot-Cloud
-void PlateRecognizer::ReadPlate(const string& imagePath) {
+string PlateRecognizer::ReadPlate(const string& imagePath) {
     // Load the .env file to get the API token
     DotenvParse::LoadEnvFile(".env");
     string apiToken = DotenvParse::envVariables["PLATE_API_KEY"];
 
     CURL* curl = curl_easy_init();
     if (!curl) {
-        cout << "Failed to initialize curl" << endl;
-        return;
+        return "Failed to initialize curl";
     }
 
     string response;
@@ -44,13 +45,14 @@ void PlateRecognizer::ReadPlate(const string& imagePath) {
         long status = 0;
         curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &status);
         cout << "HTTP status: " << status << endl;
-        cout << "Response: " << response << endl;
     }
 
     // Clean up, free from memory to be used again
     curl_mime_free(form);
     curl_slist_free_all(headers);
     curl_easy_cleanup(curl);
+
+    return response; // return the response from the API, which is a JSON string
 }
 
 // used to handle the data once it's recieved already, doesn't actually fetch any data

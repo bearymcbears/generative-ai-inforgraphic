@@ -5,7 +5,7 @@
 
 using namespace std;
 
-Text::Text(char *text, int posX, int posY, int w, int h, int fontSize, Color color, Font font, bool clickable)
+Text::Text(const char *text, int posX, int posY, int w, int h, int fontSize, Color color, Font font, bool clickable, Color boxColor)
     : posX(posX),
       posY(posY),
       initX(posX),
@@ -16,7 +16,8 @@ Text::Text(char *text, int posX, int posY, int w, int h, int fontSize, Color col
       color(color),
       font(font),
       text(text),
-      clickable(clickable) {}
+      clickable(clickable),
+      boxColor(boxColor) {}
 
 void Text::Render() {
     buttonShape = { (float)posX, (float)posY, (float)width, (float)height };
