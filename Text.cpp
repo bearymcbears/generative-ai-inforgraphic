@@ -6,6 +6,7 @@
 using namespace std;
 
 Text::Text(const char *text, int posX, int posY, int w, int h, int fontSize, Color color, Font font, bool clickable, Color boxColor)
+// direct initalization used here for same name variables. learned from class mate Lev 
     : posX(posX),
       posY(posY),
       initX(posX),
